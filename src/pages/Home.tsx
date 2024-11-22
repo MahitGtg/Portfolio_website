@@ -102,31 +102,31 @@ const Home = () => {
 
     return (
         <Layout>
-            <div className="w-full max-w-6xl mx-auto px-8">
-                {/* Hero Section - Reduced top padding */}
+            <div className="w-full max-w-6xl mx-auto px-2 sm:px-8">
+                {/* Hero Section */}
                 <div className={`
-                    space-y-3 pt-6
+                    space-y-2 pt-4 
                     transform transition-all duration-700 ease-out
                     ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
                 `}>
-                    <h2 className="font-azerat font-extrabold text-white text-2xl">
+                    <h2 className="font-azerat font-extrabold text-white text-xl sm:text-2xl">
                         Hi I am
                     </h2>
-                    <h1 className="font-nunito font-extrabold text-white text-6xl">
+                    <h1 className="font-nunito font-extrabold text-white text-4xl sm:text-6xl">
                         Mahit Gupta
                     </h1>
-                    <div className="font-cutive text-gray-400 text-lg">
+                    <div className="font-cutive text-gray-400 text-base sm:text-lg">
                         {'< Software Developer / Cybersecurity / AI >'}
                     </div>
                     <div className="font-cutive text-gray-400 flex items-center gap-2">
-                        <MapPin className="w-5 h-5" />
+                        <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                         Perth, Western Australia
                     </div>
                 </div>
 
-                {/* Social Links - Reduced vertical margins */}
+                {/* Social Links */}
                 <div className={`
-                    flex gap-6 mt-4 mb-8
+                    flex gap-4 mt-4 mb-8
                     transition-all duration-500 delay-300 ease-out
                     ${isVisible ? 'opacity-100' : 'opacity-0'}
                 `}>
@@ -138,35 +138,36 @@ const Home = () => {
                             rel="noopener noreferrer"
                             className="grayscale hover:grayscale-0 transition-all duration-300"
                         >
-                            <link.Icon className="w-10 h-10" />
+                            <link.Icon className="w-8 h-8 sm:w-10 sm:h-10" />
                         </a>
                     ))}
                 </div>
 
-                {/* Main Content Grid - Reduced gap */}
+                {/* Main Content Grid */}
                 <div className={`
-                    grid gap-8
+                    grid gap-6 
                     ${isMobileLike ? 'grid-cols-1' : 'grid-cols-2'}
                     transition-all duration-500 delay-500 ease-out
                     ${isVisible ? 'opacity-100' : 'opacity-0'}
                 `}>
-                    {/* Technologies Section - Reduced vertical spacing */}
+                    {/* Technologies Section */}
                     <div>
-                        <h2 className="font-azerat underline font-bold text-white text-3xl mb-6">
+                        <h2 className="font-azerat underline font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
                             Technologies
                         </h2>
                         <div className="space-y-6">
                             {Object.values(technologies).map((row, rowIndex) => (
-                                <div key={rowIndex} className="flex flex-wrap gap-6 items-center">
+                                <div key={rowIndex} className="flex flex-wrap gap-4 sm:gap-6 items-center">
                                     {row.map((tech) => (
                                         <div key={tech.name} className="group relative">
-                                            <div className=" w-8 h-8 transition-all duration-300 hover:scale-110">
-                                            
-                                                <tech.Icon />
+                                            <div className="transition-all duration-300 hover:scale-110">
+                                                <div className="w-6 h-6 sm:w-8 sm:h-8">
+                                                    <tech.Icon />
+                                                </div>
                                             </div>
                                             <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 
                                                         opacity-0 group-hover:opacity-100 transition-opacity duration-200
-                                                        whitespace-nowrap text-sm font-mono text-gray-400">
+                                                        whitespace-nowrap text-xs sm:text-sm font-mono text-gray-400">
                                                 {tech.name}
                                             </div>
                                         </div>
@@ -176,18 +177,18 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Experience Section - Reduced vertical spacing */}
+                    {/* Experience Section */}
                     <div>
-                        <h2 className="font-azerat underline font-bold text-white text-3xl mb-6">
+                        <h2 className="font-azerat underline font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
                             Experience
                         </h2>
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             {experiences.map((exp, index) => (
                                 <div key={index} className="font-azerat">
-                                    <div className="text-white text-base">
+                                    <div className="text-white text-sm sm:text-base">
                                         {exp.title}
                                     </div>
-                                    <div className="text-gray-400 font-cutive text-sm">
+                                    <div className="text-gray-400 font-cutive text-xs sm:text-sm">
                                         {exp.period}
                                     </div>
                                 </div>
@@ -196,9 +197,9 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* Projects Text - Reduced top margin */}
+                {/* Projects Text */}
                 <div className={`
-                    mt-2
+                    mt-6
                     transition-all duration-500 delay-700 ease-out
                     ${isVisible ? 'opacity-100' : 'opacity-0'}
                 `}>
@@ -210,4 +211,3 @@ const Home = () => {
 };
 
 export default Home;
-
