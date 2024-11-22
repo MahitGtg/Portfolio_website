@@ -58,7 +58,7 @@ const MobileSidebar = ({ isOpen, setIsOpen }: MobileSidebarProps) => {
                 <div className="w-full flex items-center justify-between">
                     <button 
                         onClick={() => setIsOpen(!isOpen)}
-                        className="hover:text-white transition-all duration-200 p-2 rounded-lg hover:bg-[#394E5F]/50 hover:shadow-[0_2px_10px_rgba(255,255,255,0.1)] active:shadow-[0_4px_16px_rgba(255,255,255,0.15)]"
+                        className=" text-white hover:text-white transition-all duration-200 p-2 rounded-lg hover:bg-[#394E5F]/50 hover:shadow-[0_2px_10px_rgba(255,255,255,0.1)] active:shadow-[0_4px_16px_rgba(255,255,255,0.15)]"
                     >
                         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
@@ -68,7 +68,7 @@ const MobileSidebar = ({ isOpen, setIsOpen }: MobileSidebarProps) => {
                             setSelectedProject(null);
                             setIsOpen(false);
                         }}
-                        className="hover:text-white transition-all duration-200 p-2 rounded-lg hover:bg-[#394E5F]/50 hover:shadow-[0_2px_10px_rgba(255,255,255,0.1)] active:shadow-[0_4px_16px_rgba(255,255,255,0.15)]"
+                        className="text-white hover:text-white transition-all duration-200 p-2 rounded-lg hover:bg-[#394E5F]/50 hover:shadow-[0_2px_10px_rgba(255,255,255,0.1)] active:shadow-[0_4px_16px_rgba(255,255,255,0.15)]"
                     >
                         <Home className="w-6 h-6" />
                     </button>

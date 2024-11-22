@@ -11,13 +11,24 @@ export const useViewport = () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
             
-            // Now checking for minimum dimensions for desktop view
+            // Large Desktop with minimum dimensions
             if (width >= 1180 && height >= 820) {
                 setViewportType('desktop');
                 setIsMobileLike(false);
-            } else {
-                // Everything else gets mobile treatment
+            }
+            // Regular Desktop
+            else if (width >= 1024) {
+                setViewportType('desktop');
+                setIsMobileLike(false);
+            }
+            // Tablet
+            else if (width >= 768) {
                 setViewportType(width > height ? 'tablet-landscape' : 'tablet-portrait');
+                setIsMobileLike(true);
+            }
+            // Mobile
+            else {
+                setViewportType('mobile');
                 setIsMobileLike(true);
             }
         };

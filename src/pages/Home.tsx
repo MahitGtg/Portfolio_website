@@ -130,7 +130,7 @@ const Home = () => {
                         rel="noopener noreferrer"
                         className="hover:text-blue-400 transition-colors duration-200"
                     >
-                        South Perth Learning Center
+                        South Perth Learning Centre
                     </a>
                 </>
             ),
@@ -199,7 +199,7 @@ const Home = () => {
                 `}>
                     {/* Technologies Section */}
                     <div>
-                        <h2 className="font-azerat font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
+                        <h2 className="font-azerat text-decoration-line: underline font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
                             Technologies
                         </h2>
                         <div className="space-y-6 sm:space-y-8">
@@ -233,7 +233,7 @@ const Home = () => {
 
                     {/* Experience Section */}
                     <div>
-                        <h2 className="font-azerat font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
+                        <h2 className="font-azerat text-decoration-line: underline font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
                             Experience
                         </h2>
                         <div className="space-y-3 sm:space-y-4">

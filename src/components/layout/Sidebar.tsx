@@ -91,16 +91,16 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="h-screen py-4 px-6">
-            <div 
-                className="w-80 h-full rounded-xl shadow-[0_8px_32px_rgb(0,0,0,0.25)] transition-shadow duration-300 relative overflow-hidden"
-                style={{
-                    background: `linear-gradient(165deg, 
-                        rgba(33, 51, 61, 0.4) 0%, 
-                        rgba(33, 51, 61, 0.6) 50%, 
-                        rgba(33, 51, 61, 0.4) 100%)`
-                }}
-            >
+        <div className="h-screen flex-shrink-0"> 
+            <div className="h-full w-80 px-6 py-4"> {/* Move padding here */}
+                <div className="w-full h-full rounded-xl shadow-[0_8px_32px_rgb(0,0,0,0.25)] transition-shadow duration-300 relative overflow-hidden"
+                    style={{
+                        background: `linear-gradient(165deg, 
+                            rgba(33, 51, 61, 0.4) 0%, 
+                            rgba(33, 51, 61, 0.6) 50%, 
+                            rgba(33, 51, 61, 0.4) 100%)`
+                    }}
+                >
                 {/* Animated background gradient */}
                 <div 
                     className="absolute inset-0 bg-gradient-to-br from-[#21333D]/20 to-transparent"
@@ -174,6 +174,7 @@ const Sidebar = () => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     );
 };
