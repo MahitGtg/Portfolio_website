@@ -154,7 +154,7 @@ const Home = () => {
                     <h2 className="font-azerat font-extrabold text-white text-xl sm:text-2xl">
                         Hi I am
                     </h2>
-                    <h1 className="font-nunito font-extrabold text-white text-4xl sm:text-6xl md:text-7xl">
+                    <h1 className="font-nunito font-extrabold text-white text-5xl sm:text-6xl md:text-7xl">
                         Mahit Gupta
                     </h1>
                     <div className="font-cutive text-gray-400 text-base sm:text-lg">
