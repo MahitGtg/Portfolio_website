@@ -62,10 +62,16 @@ const Sidebar = () => {
     }, [location.pathname]);
 
     const getScale = (index: number) => {
-        if (hoveredIndex === null) return 1;
+        if (hoveredIndex === null) {
+            return 1;
+        }
         const distance = Math.abs(index - hoveredIndex);
-        if (distance === 0) return 1.08;
-        if (distance === 1) return 1.04;
+        if (distance === 0) {
+            return 1.08;
+        }
+        if (distance === 1) {
+            return 1.04;
+        }
         return 1;
     };
 

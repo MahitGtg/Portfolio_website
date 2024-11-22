@@ -2,10 +2,8 @@ import ProjectPage from '../../components/projects/ProjectPage';
 import { PythonIcon, GitIcon } from '../../assets/icons/technologies';
 import { ShieldCheck, Swords, CircleDot } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useViewport } from '../../hooks/useViewport';
 
 const ResistanceProject = () => {
-    const { isMobileLike } = useViewport();
     const [selectedRole, setSelectedRole] = useState<'spy'|'resistance'>('resistance');
     const [missionResults, setMissionResults] = useState<Array<'success'|'fail'|'pending'>>(['success', 'fail', 'success', 'pending', 'pending']);
     const [aiLinePos, setAiLinePos] = useState(0);

@@ -4,7 +4,7 @@ import { ExternalLink } from 'lucide-react';
 import { useViewport } from '../../hooks/useViewport';
 import Sidebar from '../layout/Sidebar';
 import MobileSidebar from '../layout/mobile_sidebar';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ProjectTitle {
     type: 'combined' | 'image' | 'text';  

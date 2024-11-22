@@ -13,7 +13,7 @@ import {
 import TypingText from '../components/ui/TypingTest';
 
 const Home = () => {
-    const { viewportType, isMobileLike } = useViewport();
+    const { isMobileLike } = useViewport();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {

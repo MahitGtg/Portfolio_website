@@ -1,5 +1,5 @@
 // MobileSidebar.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Home, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AiIcon, CyberIcon, DevIcon } from '../../assets/icons/project_types';

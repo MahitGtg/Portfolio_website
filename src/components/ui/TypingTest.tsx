@@ -1,5 +1,5 @@
 // src/components/ui/TypingText.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useViewport } from '../../hooks/useViewport';
 import ArrowIcon from '../../assets/icons/arrow';
 
