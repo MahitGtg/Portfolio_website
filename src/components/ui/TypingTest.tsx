@@ -56,9 +56,9 @@ const TypingText = ({ onMobileClick }: TypingTextProps) => {
             {/* Arrow */}
             <div className={`
                 ${isMobileLike ? 'hidden' : 'block'}
-                absolute left-15 -top-5
+                absolute left-15 -top-6
             `}>
-                <ArrowIcon className="w-24 h-12 text-white" />
+                <ArrowIcon className="w-45 h-45 text-white" />
             </div>
             
             {/* Text container with fixed height to prevent wrapping */}

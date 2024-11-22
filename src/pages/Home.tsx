@@ -182,7 +182,9 @@ const Home = () => {
                                 rel="noopener noreferrer"
                                 className="grayscale hover:grayscale-0 transition-all duration-300"
                             >
-                                <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
+                                <IconComponent 
+                                    className="w-8 h-8 sm:w-10 sm:h-10" 
+                                />
                             </a>
                         );
                     })}
