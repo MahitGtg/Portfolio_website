@@ -268,19 +268,34 @@ const ProjectPage = ({ content }: { content: ProjectContent }) => {
     );
 
     return (
-        <div className="flex min-h-screen bg-black">
+        <div 
+            className="flex bg-black fixed inset-0 overflow-hidden"
+            style={{ 
+                height: isMobileLike ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
+            }}
+        >
             {isMobileLike ? (
                 <MobileSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
             ) : (
                 <Sidebar />
             )}
             <motion.main 
-                className="flex-1"
+                className={`
+                    flex-1 
+                    overflow-y-auto 
+                    scrollbar-none 
+                    relative 
+                    touch-pan-y
+                `}
+                style={{
+                    height: isMobileLike ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
+                    WebkitOverflowScrolling: 'touch'
+                }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2 }}
             >
-                <div className={`w-full h-full ${isMobileLike ? 'pt-20 px-6 pb-8' : 'p-6'}`}>
+                <div className={`w-full ${isMobileLike ? 'pt-20 px-6 pb-8' : 'p-6'}`}>
                     {isMobileLike ? (
                         <div className="grid grid-cols-1 gap-6">
                             <div className="space-y-4">
