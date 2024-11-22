@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin } from 'lucide-react';
 import Layout from '../components/layout/layout';
 import { useViewport } from '../hooks/useViewport';
