@@ -1,4 +1,3 @@
-// components/layout/Layout.tsx
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import MobileSidebar from './mobile_sidebar';
@@ -19,12 +18,35 @@ const Layout = ({ children }: LayoutProps) => {
             }
         };
 
+        // Handle mobile viewport height
+        const setMobileHeight = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        // Initial setup
+        setMobileHeight();
+
+        // Event listeners
         document.addEventListener('toggleSidebar', handleToggleSidebar);
-        return () => document.removeEventListener('toggleSidebar', handleToggleSidebar);
+        window.addEventListener('resize', setMobileHeight);
+        window.addEventListener('orientationchange', setMobileHeight);
+
+        // Cleanup
+        return () => {
+            document.removeEventListener('toggleSidebar', handleToggleSidebar);
+            window.removeEventListener('resize', setMobileHeight);
+            window.removeEventListener('orientationchange', setMobileHeight);
+        };
     }, [isMobileLike]);
 
     return (
-        <div className="flex min-h-screen h-screen bg-black overflow-hidden"> {/* Add h-screen and overflow-hidden */}
+        <div 
+            className="flex bg-black fixed inset-0 overflow-hidden"
+            style={{ 
+                height: isMobileLike ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
+            }}
+        >
             {isMobileLike ? (
                 <MobileSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
             ) : (
@@ -32,10 +54,18 @@ const Layout = ({ children }: LayoutProps) => {
             )}
             <main 
                 className={`
-                    flex-1 overflow-auto  /* Add overflow-auto */
+                    flex-1 
+                    overflow-y-auto 
+                    scrollbar-none 
+                    relative 
+                    touch-pan-y 
                     ${isMobileLike ? 'pt-16' : ''} 
                     ${viewportType === 'tablet-landscape' ? 'p-6' : 'p-8 md:p-12'}
                 `}
+                style={{
+                    height: isMobileLike ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
+                    WebkitOverflowScrolling: 'touch'
+                }}
             >
                 {children}
             </main>
