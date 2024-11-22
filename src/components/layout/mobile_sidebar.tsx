@@ -8,7 +8,7 @@ interface Project {
     id: string;
     name: string;
     type: 'dev' | 'security' | 'ai';
-    path: string; // Added path property
+    path: string;
 }
 
 interface MobileSidebarProps {
@@ -48,17 +48,17 @@ const MobileSidebar = ({ isOpen, setIsOpen }: MobileSidebarProps) => {
     const handleProjectClick = (project: Project) => {
         setSelectedProject(project.id);
         navigate(project.path);
-        setIsOpen(false); // Close sidebar after navigation
+        setIsOpen(false);
     };
 
     return (
         <>
             {/* Fixed Header */}
-            <div className="fixed top-0 left-0 right-0 bg-[#21333D]/95 backdrop-blur-sm z-50 px-4 py-3">
+            <div className="fixed top-0 left-0 right-0 bg-[#21333D]/95 backdrop-blur-sm z-[100] px-4 py-3 mobile-safe-area">
                 <div className="w-full flex items-center justify-between">
                     <button 
                         onClick={() => setIsOpen(!isOpen)}
-                        className=" text-white hover:text-white transition-all duration-200 p-2 rounded-lg hover:bg-[#394E5F]/50 hover:shadow-[0_2px_10px_rgba(255,255,255,0.1)] active:shadow-[0_4px_16px_rgba(255,255,255,0.15)]"
+                        className="text-white hover:text-white transition-all duration-200 p-2 rounded-lg hover:bg-[#394E5F]/50 hover:shadow-[0_2px_10px_rgba(255,255,255,0.1)] active:shadow-[0_4px_16px_rgba(255,255,255,0.15)]"
                     >
                         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
@@ -77,7 +77,7 @@ const MobileSidebar = ({ isOpen, setIsOpen }: MobileSidebarProps) => {
 
             {/* Slide-out Menu */}
             <div 
-                className={`fixed inset-0 bg-black/100 backdrop-blur-sm z-40 transition-all duration-300 
+                className={`fixed inset-0 bg-black/100 backdrop-blur-sm z-[90] transition-all duration-300 
                     ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                 onClick={() => setIsOpen(false)}
             >
@@ -88,7 +88,7 @@ const MobileSidebar = ({ isOpen, setIsOpen }: MobileSidebarProps) => {
                 >
                     <div className="h-full rounded-r-xl shadow-[0_8px_32px_rgba(255,255,255,0.1)]">
                         <div className="h-full bg-[#21333D]/50 p-6 text-gray-400 backdrop-blur-sm rounded-r-xl pt-20">
-                            <div className="overflow-y-auto max-h-[calc(100vh-180px)]">
+                            <div className="overflow-y-auto max-h-[calc(100vh-180px)] pb-20">
                                 <div className="space-y-2 py-4">
                                     {projects.map((project) => (
                                         <div

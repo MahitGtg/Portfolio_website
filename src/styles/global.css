@@ -30,3 +30,13 @@ overflow-x: hidden;
 * {
 box-sizing: border-box;
 }
+
+@supports(padding: max(0px)) {
+    .mobile-safe-area {
+        padding-top: max(20px, env(safe-area-inset-top));
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+        /* Add safe area for notched phones */
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+    }
+}
