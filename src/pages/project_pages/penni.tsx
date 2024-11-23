@@ -13,6 +13,7 @@ const PenniProject = () => {
         },
         description: 'A web platform helping pensioners find small, manageable jobs to earn supplementary income. As part of the frontend team, I developed user profiles and payout interfaces for this large-scale project. The platform connects seniors with job opportunities while ensuring secure and reliable compensation, developed in collaboration with Coders for Causes to empower the elderly community.',
         githubLink: 'https://github.com/codersforcauses/penni',
+        deployedLink: 'https://penni.codersforcauses.org/',
         contributors: [
             {
                 name: "Coders For Causes",
