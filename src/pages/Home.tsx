@@ -1,22 +1,43 @@
-import { useState, useEffect } from 'react';
-import { MapPin } from 'lucide-react';
-import Layout from '../components/layout/layout';
-import { useViewport } from '../hooks/useViewport';
-import { GmailIcon, LinkedinIcon, DiscordIcon, GitHubIcon, XIcon, ResumeIcon } from '../assets/icons/socials';
+import React, { useState, useRef, useEffect } from 'react';
+import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import {
-    CIcon, CSSIcon, DockerIcon, FigmaIcon, FlaskIcon, GitIcon, 
-    HTMLIcon, JavaIcon, JsIcon, NodeIcon, PandaIcon, PostgresIcon, 
-    PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, UbuntuIcon, 
+    GmailIcon, LinkedinIcon, DiscordIcon, GitHubIcon, 
+    XIcon, ResumeIcon
+} from '../assets/icons/socials';
+import {
+    CIcon, CSSIcon, DockerIcon, FigmaIcon, FlaskIcon, GitIcon,
+    HTMLIcon, JavaIcon, JsIcon, NodeIcon, PandaIcon, PostgresIcon,
+    PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, UbuntuIcon,
     VSCodeIcon, BootstrapIcon, NextjsIcon
 } from '../assets/icons/technologies';
-import TypingText from '../components/ui/TypingTest';
+
+// Add Spline viewer type declaration
+declare global {
+    namespace JSX {
+        interface IntrinsicElements {
+            'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+                url: string;
+            };
+        }
+    }
+}
 
 const Home = () => {
-    const { isMobileLike } = useViewport();
-    const [isVisible, setIsVisible] = useState(false);
+    const navigate = useNavigate();
+    const projectsRef = useRef<HTMLDivElement>(null);
+    const [scrollPosition, setScrollPosition] = useState(0);
 
+    // Add Spline script dynamically
     useEffect(() => {
-        setIsVisible(true);
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'https://unpkg.com/@splinetool/viewer@1.9.46/build/spline-viewer.js';
+        document.head.appendChild(script);
+
+        return () => {
+            document.head.removeChild(script);
+        };
     }, []);
 
     const socialLinks = [
@@ -28,185 +49,174 @@ const Home = () => {
         { platform: 'resume', Icon: ResumeIcon, href: "/Mahit_Gupta_Resume.pdf" }
     ];
 
+    type IconComponent = React.ComponentType<{ className?: string }>;
+    
     const technologies = {
         row1: [
-            { name: "Git", Icon: GitIcon },
-            { name: "VSCode", Icon: VSCodeIcon },
-            { name: "CSS", Icon: CSSIcon },
-            { name: "HTML", Icon: HTMLIcon },
-            { name: "JavaScript", Icon: JsIcon },
-            { name: "React", Icon: ReactIcon },
-            { name: "Tailwind", Icon: TailwindIcon },
-            { name: "TypeScript", Icon: TypeScriptIcon },
-            { name: "Bootstrap", Icon: BootstrapIcon }
+            { name: "TypeScript", Icon: TypeScriptIcon as IconComponent },
+            { name: "JavaScript", Icon: JsIcon as IconComponent },
+            { name: "C", Icon: CIcon as IconComponent },
+            { name: "Python", Icon: PythonIcon as IconComponent },
+            { name: "Java", Icon: JavaIcon as IconComponent }
         ],
         row2: [
-            { name: "Node.js", Icon: NodeIcon },
+            { name: "React", Icon: ReactIcon },
             { name: "Next.js", Icon: NextjsIcon },
-            { name: "Flask", Icon: FlaskIcon },
-            { name: "Docker", Icon: DockerIcon },
-            { name: "PostgreSQL", Icon: PostgresIcon },
-            { name: "Figma", Icon: FigmaIcon }
+            { name: "Node.js", Icon: NodeIcon },
+            { name: "Flask", Icon: FlaskIcon }
         ],
         row3: [
-            { name: "C", Icon: CIcon },
-            { name: "Java", Icon: JavaIcon },
-            { name: "Python", Icon: PythonIcon },
-            { name: "Pandas", Icon: PandaIcon },
-            { name: "Ubuntu", Icon: UbuntuIcon }
+            { name: "HTML", Icon: HTMLIcon },
+            { name: "CSS", Icon: CSSIcon },
+            { name: "Tailwind", Icon: TailwindIcon },
+            { name: "Bootstrap", Icon: BootstrapIcon }
         ]
     };
 
-    const experiences = [
-        {
-            title: (
-                <>
-                    Full-Stack Developer @
-                    <a href="https://www.0x3f.online/" target="_blank" rel="noopener noreferrer"
-                        className="hover:text-blue-400 transition-colors duration-200">
-                        0x3f Labs
-                    </a>
-                </>
-            ),
-            period: "November 2024 - Present",
-        },
-        {
-            title: (
-                <>
-                    IT Security Intern @
-                    <a href="https://www.prodt.co/" target="_blank" rel="noopener noreferrer"
-                        className="hover:text-blue-400 transition-colors duration-200">
-                        ProDT Consultancy
-                    </a>
-                </>
-            ),
-            period: "December 2023 - March 2024",
-        },
-        {
-            title: (
-                <>
-                    IT Programmer Intern @
-                    <a href="https://www.splc.org.au/" target="_blank" rel="noopener noreferrer"
-                        className="hover:text-blue-400 transition-colors duration-200">
-                        South Perth Learning Centre
-                    </a>
-                </>
-            ),
-            period: "June 2022 - July 2023",
-        },
+    const projects = [
+        { id: 'fittraker', name: 'FitTraker', path: '/projects/fitTracker', type: 'Full Stack Development' },
+        { id: 'penni', name: 'Penni', path: '/projects/penni', type: 'Web Development' },
+        { id: 'editor-portfolio', name: 'Editor Portfolio', path: '/projects/editor_portfolio', type: 'Web Development' },
+        { id: 'kazooey', name: 'Kazooey', path: '/projects/kazooey', type: 'Web Development' },
+        { id: 'virusware', name: 'Virusware', path: '/projects/virusware', type: 'Cybersecurity' },
+        { id: 'mtd-file-system', name: 'MTD File System', path: '/projects/mtdfile', type: 'Cybersecurity' },
+        { id: 'resistance', name: 'The Resistance', path: '/projects/resistance', type: 'Artificial Intelligence' }
     ];
 
-    const handleMobileClick = () => {
-        document.dispatchEvent(new CustomEvent('toggleSidebar'));
+    const scroll = (direction: 'left' | 'right') => {
+        const container = projectsRef.current;
+        if (!container) return;
+
+        const scrollAmount = container.offsetWidth;
+        const maxScroll = container.scrollWidth - container.offsetWidth;
+        
+        let newPosition = scrollPosition + (direction === 'right' ? scrollAmount : -scrollAmount);
+        newPosition = Math.max(0, Math.min(newPosition, maxScroll));
+        
+        container.scrollTo({
+            left: newPosition,
+            behavior: 'smooth'
+        });
+        
+        setScrollPosition(newPosition);
     };
 
     return (
-        <Layout>
-            <div className="w-full max-w-6xl mx-auto px-2 sm:px-8">
-                {/* Hero Section */}
-                <div className={`
-                    space-y-2 pt-4 
-                    transform transition-all duration-700 ease-out
-                    ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
-                `}>
-                    <h2 className="font-azerat font-extrabold text-white text-xl sm:text-2xl">
-                        Hi I am
-                    </h2>
-                    <h1 className="font-nunito font-extrabold text-white text-4xl sm:text-6xl">
-                        Mahit Gupta
-                    </h1>
-                    <div className="font-cutive text-gray-400 text-base sm:text-lg">
-                        {'< Software Developer / Cybersecurity / AI >'}
-                    </div>
-                    <div className="font-cutive text-gray-400 flex items-center gap-2">
-                        <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
-                        Perth, Western Australia
-                    </div>
-                </div>
+        <div className="min-h-screen bg-white text-black">
+            {/* Header Section with Spline */}
+            {/* Header Section with Spline */}
+<div className="w-full min-h-[90vh] flex flex-col md:flex-row items-center justify-center">
+    {/* Text Content */}
+    <div className="w-full md:w-1/2 p-8 md:p-16">
+        <div className="max-w-xl">
+            <h1 className="font-main text-6xl font-bold mb-4">Mahit Gupta</h1>
+            <p className="font-secondary text-lg text-gray-600 mb-2">
+                {"< Software Developer / Cybersecurity / AI >"}
+            </p>
+            <div className="flex items-center gap-2 text-gray-600 mb-8">
+                <MapPin className="w-4 h-4" />
+                <span className="font-secondary">Perth, Western Australia</span>
+            </div>
+            
+            {/* Social Links */}
+            <div className="flex gap-6">
+                {socialLinks.map(({ platform, Icon, href }) => (
+                    <a
+                        key={platform}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-black transition-colors"
+                    >
+                        <Icon className="w-6 h-6" />
+                    </a>
+                ))}
+            </div>
+        </div>
+    </div>
 
-                {/* Social Links */}
-                <div className={`
-                    flex gap-4 mt-4 mb-8
-                    transition-all duration-500 delay-300 ease-out
-                    ${isVisible ? 'opacity-100' : 'opacity-0'}
-                `}>
-                    {socialLinks.map((link) => (
-                        <a
-                            key={link.platform}
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="grayscale hover:grayscale-0 transition-all duration-300"
-                        >
-                            <link.Icon className="w-8 h-8 sm:w-10 sm:h-10" />
-                        </a>
-                    ))}
-                </div>
-
-                {/* Main Content Grid */}
-                <div className={`
-                    grid gap-6 
-                    ${isMobileLike ? 'grid-cols-1' : 'grid-cols-2'}
-                    transition-all duration-500 delay-500 ease-out
-                    ${isVisible ? 'opacity-100' : 'opacity-0'}
-                `}>
-                    {/* Technologies Section */}
-                    <div>
-                        <h2 className="font-azerat underline font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
-                            Technologies
-                        </h2>
-                        <div className="space-y-6">
-                            {Object.values(technologies).map((row, rowIndex) => (
-                                <div key={rowIndex} className="flex flex-wrap gap-4 sm:gap-6 items-center">
-                                    {row.map((tech) => (
-                                        <div key={tech.name} className="group relative">
-                                            <div className="transition-all duration-300 hover:scale-110">
-                                                <div className="w-6 h-6 sm:w-8 sm:h-8">
-                                                    <tech.Icon />
-                                                </div>
-                                            </div>
-                                            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 
-                                                        opacity-0 group-hover:opacity-100 transition-opacity duration-200
-                                                        whitespace-nowrap text-xs sm:text-sm font-mono text-gray-400">
-                                                {tech.name}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Experience Section */}
-                    <div>
-                        <h2 className="font-azerat underline font-bold text-white text-2xl sm:text-3xl mb-4 sm:mb-6">
-                            Experience
-                        </h2>
-                        <div className="space-y-3">
-                            {experiences.map((exp, index) => (
-                                <div key={index} className="font-azerat">
-                                    <div className="text-white text-sm sm:text-base">
-                                        {exp.title}
+    {/* Spline Viewer */}
+    <div className="w-full md:w-1/2 relative overflow-hidden flex items-center justify-center">
+        <div className="w-[500px] h-[500px]">
+            <spline-viewer 
+                url="https://prod.spline.design/EL2uRfTPZM9xdCkz/scene.splinecode"
+                loading-anim-type="spinner-small-light"
+                className="w-full h-full"
+                
+            />
+        </div>
+    </div>
+</div>
+    
+            {/* Rest of the content */}
+            <div className="bg-white py-16">
+                {/* Technologies Section */}
+                <div className="container mx-auto px-4">
+                    <h2 className="font-main text-3xl font-bold mb-12 text-center">Technologies</h2>
+                    <div className="flex flex-col items-center gap-12">
+                        {Object.values(technologies).map((row, rowIndex) => (
+                            <div key={rowIndex} className="flex gap-12 flex-wrap justify-center">
+                                {row.map((tech) => (
+                                    <div key={tech.name} className="group relative">
+                                        <tech.Icon className="w-10 h-10 text-gray-600 group-hover:text-black transition-colors" />
+                                        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 
+                                                     opacity-0 group-hover:opacity-100 transition-opacity
+                                                     text-sm whitespace-nowrap">
+                                            {tech.name}
+                                        </span>
                                     </div>
-                                    <div className="text-gray-400 font-cutive text-xs sm:text-sm">
-                                        {exp.period}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        ))}
                     </div>
-                </div>
-
-                {/* Projects Text */}
-                <div className={`
-                    mt-6
-                    transition-all duration-500 delay-700 ease-out
-                    ${isVisible ? 'opacity-100' : 'opacity-0'}
-                `}>
-                    <TypingText onMobileClick={handleMobileClick} />
                 </div>
             </div>
-        </Layout>
+    
+
+            {/* Projects Section */}
+            <div className="relative bg-gray-50 py-16">
+                <div className="container mx-auto px-4">
+                    <h2 className="font-main text-2xl font-bold text-center mb-12">Projects</h2>
+                    
+                    {/* Scroll Buttons */}
+                    <button 
+                        onClick={() => scroll('left')}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-lg
+                                 text-gray-600 hover:text-black transition-colors disabled:opacity-50"
+                        disabled={scrollPosition === 0}
+                    >
+                        <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button 
+                        onClick={() => scroll('right')}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-lg
+                                 text-gray-600 hover:text-black transition-colors"
+                    >
+                        <ChevronRight className="w-6 h-6" />
+                    </button>
+
+                    {/* Projects Container */}
+                    <div 
+                        ref={projectsRef}
+                        className="overflow-x-hidden whitespace-nowrap"
+                    >
+                        <div className="inline-flex gap-6">
+                            {projects.map((project) => (
+                                <div
+                                    key={project.id}
+                                    onClick={() => navigate(project.path)}
+                                    className="w-80 bg-white p-6 rounded-lg shadow-lg cursor-pointer
+                                             transform transition-all duration-300 hover:-translate-y-2"
+                                >
+                                    <h3 className="font-main text-xl font-bold mb-2">{project.name}</h3>
+                                    <p className="font-secondary text-sm text-gray-600">{project.type}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

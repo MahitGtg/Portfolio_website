@@ -7,11 +7,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        azerat: ["Azeret Mono", "monospace"],
-        nunito: ["Nunito", "sans-serif"],
-        cutive: ["Cutive Mono", "monospace"],
-        jetbrains: ["JetBrains Mono", "monospace"],
-        roboto: ["Roboto", "sans-serif"]
+        main: ["Noto sans", "sans-serif"],
+        secondary: ["Courier Prime", "monospace"],
       },
       fontWeight: {
         thin: '100',
@@ -23,7 +20,11 @@ module.exports = {
         bold: '700',
         extrabold: '800',
         black: '900',
-      }
+      },
+      colors: {
+        'selected': '#0E1636',
+        'unselected': '#809BB6',
+      },
     },
   },
   plugins: [],
