@@ -74,8 +74,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
     const { isMobileLike } = useViewport();
     const [isLoaded, setIsLoaded] = useState(false);
-    const [videoError, setVideoError] = useState(false);
-    const [loadTimeout, setLoadTimeout] = useState(false);
 
     useEffect(() => {
         if (typeof demo.content === 'string') {
