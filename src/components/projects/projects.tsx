@@ -13,7 +13,7 @@ import PenniShowcase from '../../assets/project_images/iphone_image.png';
 import VirusWare from '../../assets/project_images/virusware.png';
 import kazooey from '../../assets/project_images/Kazooey.png';
 import EditorPortfolio from '../../assets/project_images/Toymeet.png';
-
+import FitTrakerImgae from '../../assets/project_images/fitTrakerImage.jpeg';
 import { useState, useEffect } from 'react';
 
 
@@ -224,7 +224,7 @@ export const projectsData: ProjectData[] = [
         demo: {
             type: 'video',
             content: FitTrackerDemo,
-            fallbackImage: 'fittracker.png'
+            fallbackImage: FitTrakerImgae
         },
         contributors: [
             { name: "The University of Western Australia", role: "Capstone Project", link: "https://www.uwa.edu.au/" },
