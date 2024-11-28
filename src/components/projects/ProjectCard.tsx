@@ -45,7 +45,7 @@ const animations = {
             transition: {
                 duration: 0.3,
                 ease: "easeOut",
-                delay: Math.min(custom * 0.1, 0.3) // Cap the delay at 0.3s
+                delay: Math.min(custom * 0.1, 0.3)
             }
         })
     },
@@ -75,6 +75,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     const { isMobileLike } = useViewport();
     const [isLoaded, setIsLoaded] = useState(false);
     const [videoError, setVideoError] = useState(false);
+    const [loadTimeout, setLoadTimeout] = useState(false);
 
     useEffect(() => {
         if (typeof demo.content === 'string') {
@@ -83,10 +84,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 img.src = demo.content;
                 img.onload = () => setIsLoaded(true);
             } else if (demo.type === 'video' && !isMobileLike) {
+                // Set up timeout for video loading
+                const timeoutId = setTimeout(() => {
+                    if (!isLoaded) {
+                        setLoadTimeout(true);
+                        setIsLoaded(true); // Force loaded state to show fallback
+                    }
+                }, 5000);
+
                 const video = document.createElement('video');
                 video.src = demo.content;
-                video.onloadeddata = () => setIsLoaded(true);
-                video.onerror = () => setVideoError(true);
+                video.onloadeddata = () => {
+                    setIsLoaded(true);
+                    setLoadTimeout(false);
+                };
+                video.onerror = () => {
+                    setVideoError(true);
+                    setIsLoaded(true); // Force loaded state to show fallback
+                };
+
+                // Clean up timeout
+                return () => clearTimeout(timeoutId);
             }
         } else {
             setIsLoaded(true);
@@ -95,7 +113,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
     const renderDemo = () => {
         if (!isLoaded) {
-            return <div className="w-full aspect-[16/10] bg-black/50" />; // Loading placeholder
+            return <div className="w-full aspect-[16/10] bg-black/50" />;
         }
 
         if (demo.type === 'interactive' && React.isValidElement(demo.content)) {
@@ -104,11 +122,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             );
         }
 
-        if (demo.type === 'video' && !isMobileLike && !videoError) {
+        if (demo.type === 'video' && !isMobileLike && !videoError && !loadTimeout) {
             return (
                 <video
                     src={demo.content as string}
-                    className={`w-full aspect-[16/10] object-cover ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
+                    className={`w-full aspect-[16/10] object-cover 
+                              transition-opacity duration-300
+                              ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
                     autoPlay
                     muted
                     loop
@@ -119,11 +139,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             );
         }
 
+        // Fallback to image for video errors, timeouts, or mobile
+        if ((demo.type === 'video' && (videoError || loadTimeout || isMobileLike)) && demo.fallbackImage) {
+            return (
+                <img
+                    src={demo.fallbackImage}
+                    alt={title}
+                    className="w-full aspect-[16/10] object-cover"
+                    onLoad={() => setIsLoaded(true)}
+                />
+            );
+        }
+
+        // Regular image
         return (
             <img
-                src={demo.type === 'video' ? (demo.fallbackImage || '') : (demo.content as string)}
+                src={demo.content as string}
                 alt={title}
-                className={`w-full aspect-[16/10] object-cover transition-opacity duration-300 
+                className={`w-full aspect-[16/10] object-cover 
+                           transition-opacity duration-300
                            ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
                 onLoad={() => setIsLoaded(true)}
             />
@@ -157,7 +191,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 initial="initial"
                 animate="animate"
             >
-                {/* Keep existing content structure */}
                 <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="min-w-0 flex-1">
                         <h3 className="font-main text-base font-bold text-white mb-0.5 truncate">
@@ -167,14 +200,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
                         {githubLink && (
-                            <a href={githubLink} target="_blank" rel="noopener noreferrer"
+                            <a href={githubLink} 
+                               target="_blank" 
+                               rel="noopener noreferrer"
                                className="text-white hover:text-white transition-colors duration-200"
                                onClick={(e) => e.stopPropagation()}>
                                 <GitHubIcon className="w-5 h-5" />
                             </a>
                         )}
                         {deployedLink && (
-                            <a href={deployedLink} target="_blank" rel="noopener noreferrer"
+                            <a href={deployedLink} 
+                               target="_blank" 
+                               rel="noopener noreferrer"
                                className="text-white hover:text-white transition-colors duration-200"
                                onClick={(e) => e.stopPropagation()}>
                                 <ExternalLink className="w-5 h-5" />
