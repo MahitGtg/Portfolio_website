@@ -11,7 +11,6 @@ import {
     UbuntuIcon
 } from '../assets/icons/technologies';
 import { useViewport } from '../hooks/useViewport';
-import GrainyBackground from '../components/grainy';
 import ProjectsModalComponent from '../components/projects/ProjectsModal';
 
 
@@ -24,31 +23,6 @@ declare global {
         }
     }
 }
-const TextButton = ({ children, onClick, className = "" }: { 
-    children: React.ReactNode;
-    onClick: () => void;
-    className?: string;
-}) => {
-    return (
-        <button
-            onClick={onClick}
-            className={`
-                px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full 
-                flex items-center justify-center border border-slate-200/20
-                hover:bg-white hover:shadow-soft hover:-translate-y-0.5
-                hover:border-slate-200/30 group
-                transition-all duration-300
-                ${className}
-            `}
-        >
-            <span className="font-secondary text-l text-navy-600 grayscale group-hover:grayscale-0
-                opacity-70 group-hover:opacity-100
-                transition-all duration-300">
-                {children}
-            </span>
-        </button>
-    );
-};
 
 
 const TechnologySection = () => {
@@ -130,13 +104,98 @@ const TechnologySection = () => {
 
 
 
+// Custom background component with enhanced gradient
+const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <div className="min-h-screen relative bg-gradient-to-br from-[#e2e8f0] via-[#cbd5e1] to-[#94a3b8]">
+            {/* Grain overlay */}
+            <div 
+                className="absolute inset-0 opacity-50"
+                style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: '100px 100px',
+                }}
+            />
+            
+            {/* Radial gradient overlay for depth */}
+            <div 
+                className="absolute inset-0 bg-gradient-to-b from-transparent to-white/50 mix-blend-overlay"
+                style={{
+                    background: 'radial-gradient(circle at top center, transparent 0%, rgba(255,255,255,0.5) 100%)'
+                }}
+            />
+            
+            {/* Content */}
+            <div className="relative">{children}</div>
+        </div>
+    );
+};
+
+const TextButton = ({ children, onClick, className = "" }: { 
+    children: React.ReactNode;
+    onClick: () => void;
+    className?: string;
+}) => {
+    return (
+        <button
+            onClick={onClick}
+            className={`
+                px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full 
+                flex items-center justify-center border border-slate-200/20
+                hover:bg-white hover:shadow-lg hover:-translate-y-0.5
+                hover:border-slate-200/30 group
+                transition-all duration-300 ease-out
+                ${className}
+            `}
+        >
+            <span className="font-secondary text-lg text-navy-600 
+                         group-hover:text-navy-800
+                         transition-all duration-300">
+                {children}
+            </span>
+        </button>
+    );
+};
+
+const SocialLink = ({ Icon, href }: {
+    Icon: React.ComponentType<any>;
+    href: string;
+}) => (
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full 
+                flex items-center justify-center border border-slate-200/20
+                hover:bg-white hover:shadow-lg hover:-translate-y-0.5
+                hover:border-slate-200/30 group
+                transition-all duration-300 ease-out"
+    >
+        <Icon className="w-5 h-5 text-navy-600
+                    opacity-70 group-hover:opacity-100
+                    transition-all duration-300
+                    transform group-hover:scale-110" />
+    </a>
+);
+
+const LoadingSpinner = () => (
+    <div className="h-32 w-32 relative">
+        <div className="absolute inset-0 border-8 border-blue-500/30 rounded-full 
+                    animate-[spin_3s_linear_infinite]" />
+        <div className="absolute inset-2 border-8 border-navy-600/40 rounded-full 
+                    animate-[spin_2s_linear_infinite_reverse]" />
+        <div className="absolute inset-4 border-8 border-slate-300/50 rounded-full 
+                    animate-[spin_1s_linear_infinite]" />
+    </div>
+);
+
 const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [revealContent, setRevealContent] = useState(false);
     const [isProjectsOpen, setIsProjectsOpen] = useState(false);
     const navigate = useNavigate();
     const { isMobileLike } = useViewport();
-
 
     const socialLinks = [
         { platform: 'github', Icon: GitHubIcon, href: "https://github.com/MahitGtg" },
@@ -147,11 +206,13 @@ const Home = () => {
     ];
 
     useEffect(() => {
+        // Load Spline viewer
         const script = document.createElement('script');
         script.type = 'module';
         script.src = 'https://unpkg.com/@splinetool/viewer@1.9.46/build/spline-viewer.js';
         document.head.appendChild(script);
 
+        // Simulate loading
         const timer = setTimeout(() => {
             setIsLoading(false);
             setTimeout(() => setRevealContent(true), 300);
@@ -164,37 +225,31 @@ const Home = () => {
     }, []);
 
     return (
-        <GrainyBackground>
+        <EnhancedBackground>
             {/* Loading Screen */}
             <div className={`
-                fixed inset-0 z-50 bg-white flex items-center justify-center
-                transition-transform duration-700 ease-in-out
+                fixed inset-0 z-50 bg-gradient-to-br from-slate-50 to-white
+                flex items-center justify-center
+                transition-transform duration-700 ease-out
                 ${isLoading ? 'translate-y-0' : '-translate-y-full'}
             `}>
-                <div className="h-32 w-32 relative">
-                    <div className="absolute inset-0 border-8 border-blue-500 rounded-full 
-                                animate-[spin_3s_linear_infinite]" />
-                    <div className="absolute inset-2 border-8 border-black rounded-full 
-                                animate-[spin_2s_linear_infinite_reverse]" />
-                    <div className="absolute inset-4 border-8 border-gray-300 rounded-full 
-                                animate-[spin_1s_linear_infinite]" />
-                </div>
+                <LoadingSpinner />
             </div>
-    
+
             {/* Projects Modal */}
             <ProjectsModalComponent 
                 isOpen={isProjectsOpen}
                 onClose={() => setIsProjectsOpen(false)}
                 navigate={navigate}
             />
-    
+
             {/* Main Content */}
             <div className="min-h-screen flex items-center justify-center">
                 <div className={`
                     w-full max-w-6xl mx-auto 
                     ${isMobileLike ? 'px-6' : 'px-8 md:px-12'}
-                    transition-opacity duration-700 ease-out
-                    ${revealContent ? 'opacity-100' : 'opacity-0'}
+                    transition-all duration-700 ease-out
+                    ${revealContent ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}
                     ${isProjectsOpen ? 'blur-sm' : ''}
                 `}>
                     {/* Hero Section */}
@@ -207,86 +262,59 @@ const Home = () => {
                             w-full ${isMobileLike ? 'text-center' : 'md:w-1/2 text-left'}
                         `}>
                             {/* Name and Title */}
-                            <div className={`
-                                transform transition-transform duration-700 delay-100
-                                ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
-                            `}>
-                                <h2 className="font-secondary text-2xl font-medium text-navy-600 mb-0.5">Hi I am</h2>
-                                <h1 className="font-main text-5xl md:text-7xl font-black text-navy-800 mb-2">
+                            <div className="space-y-1 mb-4">
+                                <h2 className="font-secondary text-2xl font-medium text-navy-600/90">
+                                    Hi I am
+                                </h2>
+                                <h1 className="font-main text-5xl md:text-7xl font-black text-navy-800
+                                             tracking-tight">
                                     Mahit Gupta
                                 </h1>
                             </div>
 
                             {/* Role and Location */}
-                            <div className={`
-                                transform transition-all duration-700 delay-200
-                                ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
-                            `}>
-                                <p className="font-secondary text-lg text-navy-600 ">
+                            <div className="space-y-3 mb-6">
+                                <p className="font-secondary text-lg text-navy-600/90">
                                     {"< Software Developer / Cybersecurity / AI >"}
                                 </p>
                                 <div className={`
-                                    flex items-center gap-2 mb-4
+                                    flex items-center gap-2
                                     ${isMobileLike ? 'justify-center' : 'justify-start'}
                                 `}>
-                                    <MapPin className="w-4 h-4 text-navy-600" />
-                                    <span className="font-secondary text-lg text-navy-600">Perth, Western Australia</span>
+                                    <MapPin className="w-5 h-5 text-navy-600/80" />
+                                    <span className="font-secondary text-lg text-navy-600/90">
+                                        Perth, Western Australia
+                                    </span>
                                 </div>
                             </div>
 
                             {/* Social Links */}
                             <div className={`
-                                flex gap-3 mb-4
+                                flex gap-4 mb-6
                                 ${isMobileLike ? 'justify-center' : 'justify-start'}
-                                transform transition-all duration-700 delay-300
-                                ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
                             `}>
-                                {socialLinks.map(({ platform, Icon, href }) => (
-                                    <a
-                                        key={platform}
-                                        href={href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full 
-                                                flex items-center justify-center border border-slate-200/20
-                                                hover:bg-white hover:shadow-soft hover:-translate-y-0.5
-                                                hover:border-slate-200/30 group
-                                                transition-all duration-300"
-                                    >
-                                        <Icon className="w-5 h-5 text-navy-600 grayscale group-hover:grayscale-0
-                                                    opacity-70 group-hover:opacity-100
-                                                    transition-all duration-300" />
-                                    </a>
+                                {socialLinks.map((link) => (
+                                    <SocialLink key={link.platform} {...link} />
                                 ))}
                             </div>
-    
-                            {/* Text Buttons */}
+
+                            {/* Action Buttons */}
                             <div className={`
                                 flex gap-4 
                                 ${isMobileLike ? 'justify-center' : 'justify-start'}
-                                transform transition-all duration-700 delay-400
-                                ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
                             `}>
-                                <TextButton
-                                    onClick={() => window.open("/Mahit_Gupta_Resume.pdf", "_blank")}
-                                >
+                                <TextButton onClick={() => window.open("/Mahit_Gupta_Resume.pdf", "_blank")}>
                                     Resume
                                 </TextButton>
-                                <TextButton
-                                    onClick={() => setIsProjectsOpen(true)}
-                                >
+                                <TextButton onClick={() => setIsProjectsOpen(true)}>
                                     Projects
                                 </TextButton>
                             </div>
                         </div>
-    
+
                         {/* Right Side - Spline Animation */}
                         {!isMobileLike && (
-                            <div className={`
-                                w-full md:w-1/2 flex items-center justify-center
-                                transform transition-all duration-700 delay-500
-                                ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}
-                            `}>
+                            <div className="w-full md:w-1/2 flex items-center justify-center">
                                 <div className="w-[500px] h-[300px]">
                                     <spline-viewer 
                                         loading-anim-type="spinner-small-dark" 
@@ -297,19 +325,14 @@ const Home = () => {
                             </div>
                         )}
                     </div>
-    
+
                     {/* Technology Section */}
-                    <div className={`
-                        mt-8
-                        ${isMobileLike ? 'pb-12' : ''}
-                        transform transition-all duration-700 delay-600
-                        ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}
-                    `}>
-                        <TechnologySection />  {/* Remove the extra grid div wrapper */}
+                    <div className="mt-12">
+                        <TechnologySection />
                     </div>
                 </div>
             </div>
-        </GrainyBackground>
+        </EnhancedBackground>
     );
 };
 
