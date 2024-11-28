@@ -11,25 +11,20 @@ export const useViewport = () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
             
-            // Large Desktop with minimum dimensions
-            if (width >= 1180 && height >= 820) {
+            // Desktop view (landscape screens >= 1180px wide)
+            if (width >= 1180) {
                 setViewportType('desktop');
                 setIsMobileLike(false);
             }
-            // Regular Desktop
-            else if (width >= 1024) {
-                setViewportType('desktop');
-                setIsMobileLike(false);
+            // Tablet landscape
+            else if (width >= 768 && width > height) {
+                setViewportType('tablet-landscape');
+                setIsMobileLike(false); // Use desktop layout
             }
-            // Tablet
-            else if (width >= 768) {
-                setViewportType(width > height ? 'tablet-landscape' : 'tablet-portrait');
-                setIsMobileLike(true);
-            }
-            // Mobile
+            // Tablet portrait and mobile (stacked layout)
             else {
-                setViewportType('mobile');
-                setIsMobileLike(true);
+                setViewportType(width >= 768 ? 'tablet-portrait' : 'mobile');
+                setIsMobileLike(true); // Use mobile layout
             }
         };
 
