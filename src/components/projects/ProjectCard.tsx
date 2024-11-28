@@ -137,39 +137,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         }
     
         // For mobile device mockups
+        // For mobile device mockups
         if (demo.isMobile && typeof demo.content === 'string') {
             return (
-                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-slate-900 to-black">
+                <div className="relative w-full aspect-[16/10] bg-black">
                     <motion.div 
                         variants={animations.content}
                         initial="hidden"
-                        animate="visible"
+                        animate={isLoaded ? "visible" : "hidden"}
                         className="absolute inset-0 flex items-center justify-center"
                     >
-                        {/* Phone frame container */}
-                        <div className="relative h-[90%] py-2">
-                            {/* Phone frame */}
-                            <div className="relative h-full max-w-[280px] mx-auto">
-                                {/* Phone bezel */}
-                                <div className="absolute inset-0 bg-black rounded-[3rem] shadow-2xl">
-                                    {/* Notch */}
-                                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full" />
-                                </div>
-                                {/* Screen content */}
-                                <img
-                                    src={demo.content}
-                                    alt={title}
-                                    className="relative h-full w-full object-cover rounded-[2.5rem] shadow-inner"
-                                    onLoad={() => setIsLoaded(true)}
-                                    loading="eager"
-                                />
-                                {/* Phone buttons */}
-                                <div className="absolute -right-2 top-16 w-1 h-6 bg-slate-800 rounded-l-lg" />
-                                <div className="absolute -left-2 top-16 w-1 h-8 bg-slate-800 rounded-r-lg" />
-                                <div className="absolute -left-2 top-32 w-1 h-8 bg-slate-800 rounded-r-lg" />
-                                <div className="absolute -left-2 top-44 w-1 h-8 bg-slate-800 rounded-r-lg" />
-                            </div>
-                        </div>
+                        <img
+                            src={demo.content}
+                            alt={title}
+                            className="h-[90%] w-auto object-contain mx-auto"
+                            onLoad={() => setIsLoaded(true)}
+                            loading="eager"
+                        />
                     </motion.div>
                 </div>
             );
