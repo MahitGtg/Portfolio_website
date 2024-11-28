@@ -141,6 +141,18 @@ const ResistanceDemo = () => {
                     />
                 </div>
 
+                {/* Scanning Line Effect */}
+                <div 
+                    className={`
+                        absolute h-px w-full opacity-20 transition-colors duration-1000
+                        ${missionStatus === 'fail' ? 'bg-[#ef4444]' : 'bg-[#3b82f6]'}
+                    `}
+                    style={{
+                        top: `${scanningLinePos}%`,
+                        boxShadow: `0 0 10px 2px ${missionStatus === 'fail' ? '#ef4444' : '#3b82f6'}`
+                    }}
+                />
+
                 {/* Floating particles */}
                 {Array.from({ length: 6 }).map((_, i) => (
                     <div
