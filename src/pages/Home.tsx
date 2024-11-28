@@ -100,7 +100,7 @@ const TechnologySection = () => {
                 >
                     <div className="flex items-center gap-2 mb-3">
                         <CategoryIcon className="w-4 h-4 text-navy-600" />
-                        <h3 className="text-sm font-main font-semibold text-navy-800">{category}</h3>
+                        <h3 className="text-l font-main font-semibold text-navy-800">{category}</h3>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-1.5">
@@ -115,7 +115,7 @@ const TechnologySection = () => {
                                               opacity-70 group-hover:opacity-100 transition-opacity">
                                     <Icon />
                                 </div>
-                                <span className="text-xs font-secondary text-navy-600 
+                                <span className="text-m font-secondary font-semi text-navy-600 
                                                group-hover:text-navy-800 transition-colors">
                                     {name}
                                 </span>
@@ -211,7 +211,7 @@ const Home = () => {
                                 transform transition-transform duration-700 delay-100
                                 ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
                             `}>
-                                <h2 className="font-mono text-lg font-medium text-navy-600 mb-0.5">Hi I am</h2>
+                                <h2 className="font-secondary text-xl font-medium text-navy-600 mb-0.5">Hi I am</h2>
                                 <h1 className="font-main text-5xl md:text-7xl font-black text-navy-800 mb-2">
                                     Mahit Gupta
                                 </h1>
@@ -222,7 +222,7 @@ const Home = () => {
                                 transform transition-all duration-700 delay-200
                                 ${revealContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
                             `}>
-                                <p className="font-mono text-base text-navy-600 mb-2">
+                                <p className="font-secondary text-lg text-navy-600 ">
                                     {"< Software Developer / Cybersecurity / AI >"}
                                 </p>
                                 <div className={`
@@ -230,7 +230,7 @@ const Home = () => {
                                     ${isMobileLike ? 'justify-center' : 'justify-start'}
                                 `}>
                                     <MapPin className="w-4 h-4 text-navy-600" />
-                                    <span className="font-mono text-sm text-navy-600">Perth, Western Australia</span>
+                                    <span className="font-secondary text-lg text-navy-600">Perth, Western Australia</span>
                                 </div>
                             </div>
 
@@ -253,7 +253,7 @@ const Home = () => {
                                                 hover:border-slate-200/30 group
                                                 transition-all duration-300"
                                     >
-                                        <Icon className="w-3.5 h-3.5 text-navy-600 grayscale group-hover:grayscale-0
+                                        <Icon className="w-4 h-4 text-navy-600 grayscale group-hover:grayscale-0
                                                     opacity-70 group-hover:opacity-100
                                                     transition-all duration-300" />
                                     </a>
