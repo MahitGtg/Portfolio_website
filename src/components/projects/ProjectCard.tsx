@@ -85,41 +85,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 img.onload = () => setIsLoaded(true);
             } else if (demo.type === 'video') {
                 if (isMobileLike) {
-                    // On mobile, immediately set loaded and use fallback
-                    setIsLoaded(true);
+                    setIsLoaded(true); // For mobile, immediately ready with fallback
                 } else {
-                    // Only try video on desktop
-                    const timeoutId = setTimeout(() => {
-                        if (!isLoaded) {
-                            setLoadTimeout(true);
-                            setIsLoaded(true);
-                        }
-                    }, 5000);
-    
                     const video = document.createElement('video');
                     video.src = demo.content;
-                    video.onloadeddata = () => {
-                        setIsLoaded(true);
-                        setLoadTimeout(false);
-                    };
-                    video.onerror = () => {
-                        setVideoError(true);
-                        setIsLoaded(true);
-                    };
-    
-                    return () => clearTimeout(timeoutId);
+                    video.onloadeddata = () => setIsLoaded(true);
                 }
             }
         } else {
             setIsLoaded(true);
         }
     }, [demo, isMobileLike]);
-
+    
     const renderDemo = () => {
         if (!isLoaded) {
-            return (
-                <div className="w-full aspect-[16/10] bg-black/50" />
-            );
+            return <div className="w-full aspect-[16/10] bg-black/50" />;
         }
     
         // For interactive demos
@@ -136,7 +116,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             );
         }
     
-        // For mobile device mockups
         // For mobile device mockups
         if (demo.isMobile && typeof demo.content === 'string') {
             return (
@@ -159,10 +138,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             );
         }
     
-        // For videos - Use fallback on mobile or if video fails
+        // For videos
         if (demo.type === 'video') {
-            // On mobile or errors, always use fallback
-            if (isMobileLike || videoError || loadTimeout) {
+            if (isMobileLike) {
                 return (
                     <motion.img
                         variants={animations.content}
@@ -176,8 +154,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     />
                 );
             }
-    
-            // Only attempt video on desktop and no errors
+            
             return (
                 <motion.video
                     variants={animations.content}
@@ -190,11 +167,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     loop
                     playsInline
                     preload="auto"
-                    onLoadedData={() => {
-                        setIsLoaded(true);
-                        setLoadTimeout(false);
-                    }}
-                    onError={() => setVideoError(true)}
+                    onLoadedData={() => setIsLoaded(true)}
                 />
             );
         }
@@ -213,6 +186,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             />
         );
     };
+    
     
 
     return (
