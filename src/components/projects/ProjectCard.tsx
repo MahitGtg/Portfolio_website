@@ -83,28 +83,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 const img = new Image();
                 img.src = demo.content;
                 img.onload = () => setIsLoaded(true);
-            } else if (demo.type === 'video' && !isMobileLike) {
-                // Set up timeout for video loading
-                const timeoutId = setTimeout(() => {
-                    if (!isLoaded) {
-                        setLoadTimeout(true);
-                        setIsLoaded(true); // Force loaded state to show fallback
-                    }
-                }, 5000);
-
-                const video = document.createElement('video');
-                video.src = demo.content;
-                video.onloadeddata = () => {
+            } else if (demo.type === 'video') {
+                if (isMobileLike) {
+                    // On mobile, immediately set loaded and use fallback
                     setIsLoaded(true);
-                    setLoadTimeout(false);
-                };
-                video.onerror = () => {
-                    setVideoError(true);
-                    setIsLoaded(true); // Force loaded state to show fallback
-                };
-
-                // Clean up timeout
-                return () => clearTimeout(timeoutId);
+                } else {
+                    // Only try video on desktop
+                    const timeoutId = setTimeout(() => {
+                        if (!isLoaded) {
+                            setLoadTimeout(true);
+                            setIsLoaded(true);
+                        }
+                    }, 5000);
+    
+                    const video = document.createElement('video');
+                    video.src = demo.content;
+                    video.onloadeddata = () => {
+                        setIsLoaded(true);
+                        setLoadTimeout(false);
+                    };
+                    video.onerror = () => {
+                        setVideoError(true);
+                        setIsLoaded(true);
+                    };
+    
+                    return () => clearTimeout(timeoutId);
+                }
             }
         } else {
             setIsLoaded(true);
@@ -113,56 +117,119 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
     const renderDemo = () => {
         if (!isLoaded) {
-            return <div className="w-full aspect-[16/10] bg-black/50" />;
-        }
-
-        if (demo.type === 'interactive' && React.isValidElement(demo.content)) {
             return (
-                <div className="w-full aspect-[16/10]">{demo.content}</div>
+                <div className="w-full aspect-[16/10] bg-black/50" />
             );
         }
-
-        if (demo.type === 'video' && !isMobileLike && !videoError && !loadTimeout) {
+    
+        // For interactive demos
+        if (demo.type === 'interactive' && React.isValidElement(demo.content)) {
             return (
-                <video
+                <motion.div 
+                    variants={animations.content}
+                    initial="hidden"
+                    animate="visible"
+                    className="w-full aspect-[16/10]"
+                >
+                    {demo.content}
+                </motion.div>
+            );
+        }
+    
+        // For mobile device mockups
+        if (demo.isMobile && typeof demo.content === 'string') {
+            return (
+                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-slate-900 to-black">
+                    <motion.div 
+                        variants={animations.content}
+                        initial="hidden"
+                        animate="visible"
+                        className="absolute inset-0 flex items-center justify-center"
+                    >
+                        {/* Phone frame container */}
+                        <div className="relative h-[90%] py-2">
+                            {/* Phone frame */}
+                            <div className="relative h-full max-w-[280px] mx-auto">
+                                {/* Phone bezel */}
+                                <div className="absolute inset-0 bg-black rounded-[3rem] shadow-2xl">
+                                    {/* Notch */}
+                                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full" />
+                                </div>
+                                {/* Screen content */}
+                                <img
+                                    src={demo.content}
+                                    alt={title}
+                                    className="relative h-full w-full object-cover rounded-[2.5rem] shadow-inner"
+                                    onLoad={() => setIsLoaded(true)}
+                                    loading="eager"
+                                />
+                                {/* Phone buttons */}
+                                <div className="absolute -right-2 top-16 w-1 h-6 bg-slate-800 rounded-l-lg" />
+                                <div className="absolute -left-2 top-16 w-1 h-8 bg-slate-800 rounded-r-lg" />
+                                <div className="absolute -left-2 top-32 w-1 h-8 bg-slate-800 rounded-r-lg" />
+                                <div className="absolute -left-2 top-44 w-1 h-8 bg-slate-800 rounded-r-lg" />
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            );
+        }
+    
+        // For videos - Use fallback on mobile or if video fails
+        if (demo.type === 'video') {
+            // On mobile or errors, always use fallback
+            if (isMobileLike || videoError || loadTimeout) {
+                return (
+                    <motion.img
+                        variants={animations.content}
+                        initial="hidden"
+                        animate="visible"
+                        src={demo.fallbackImage}
+                        alt={title}
+                        className="w-full aspect-[16/10] object-cover"
+                        onLoad={() => setIsLoaded(true)}
+                        loading="eager"
+                    />
+                );
+            }
+    
+            // Only attempt video on desktop and no errors
+            return (
+                <motion.video
+                    variants={animations.content}
+                    initial="hidden"
+                    animate="visible"
                     src={demo.content as string}
-                    className={`w-full aspect-[16/10] object-cover 
-                              transition-opacity duration-300
-                              ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
+                    className="w-full aspect-[16/10] object-cover"
                     autoPlay
                     muted
                     loop
                     playsInline
-                    onLoadedData={() => setIsLoaded(true)}
+                    preload="auto"
+                    onLoadedData={() => {
+                        setIsLoaded(true);
+                        setLoadTimeout(false);
+                    }}
                     onError={() => setVideoError(true)}
                 />
             );
         }
-
-        // Fallback to image for video errors, timeouts, or mobile
-        if ((demo.type === 'video' && (videoError || loadTimeout || isMobileLike)) && demo.fallbackImage) {
-            return (
-                <img
-                    src={demo.fallbackImage}
-                    alt={title}
-                    className="w-full aspect-[16/10] object-cover"
-                    onLoad={() => setIsLoaded(true)}
-                />
-            );
-        }
-
-        // Regular image
+    
+        // Regular images
         return (
-            <img
+            <motion.img
+                variants={animations.content}
+                initial="hidden"
+                animate="visible"
                 src={demo.content as string}
                 alt={title}
-                className={`w-full aspect-[16/10] object-cover 
-                           transition-opacity duration-300
-                           ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                className="w-full aspect-[16/10] object-cover"
                 onLoad={() => setIsLoaded(true)}
+                loading="eager"
             />
         );
     };
+    
 
     return (
         <motion.div 
