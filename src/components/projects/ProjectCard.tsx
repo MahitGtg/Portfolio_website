@@ -290,7 +290,7 @@ const ProjectCard = ({
                 <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="min-w-0 flex-1">
                         <h3 className="font-main text-base font-bold text-navy-800 mb-0.5 truncate">{title}</h3>
-                        <p className="font-mono text-xs text-navy-600">{type}</p>
+                        <p className="font-main text-xs text-navy-600">{type}</p>
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
                         {githubLink && (
