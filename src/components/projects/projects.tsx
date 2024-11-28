@@ -198,6 +198,7 @@ export interface ProjectData {
         type: 'image' | 'video' | 'interactive';
         content: string | React.ReactNode;
         isMobile?: boolean;
+        fallbackImage?: string;
     };
     githubLink?: string;
     deployedLink?: string;
@@ -222,7 +223,8 @@ export const projectsData: ProjectData[] = [
         ],
         demo: {
             type: 'video',
-            content: FitTrackerDemo
+            content: FitTrackerDemo,
+            fallbackImage: 'fittracker.png'
         },
         contributors: [
             { name: "The University of Western Australia", role: "Capstone Project", link: "https://www.uwa.edu.au/" },

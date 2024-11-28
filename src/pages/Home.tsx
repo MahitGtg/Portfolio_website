@@ -7,12 +7,10 @@ import {
     CIcon, CSSIcon, DockerIcon, FigmaIcon, FlaskIcon, GitIcon,
     HTMLIcon, JavaIcon, JsIcon, NodeIcon, PostgresIcon,
     PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, NextjsIcon, BootstrapIcon, VSCodeIcon,
-    PandaIcon,
-    UbuntuIcon
+    PandaIcon, UbuntuIcon
 } from '../assets/icons/technologies';
 import { useViewport } from '../hooks/useViewport';
 import ProjectsModalComponent from '../components/projects/ProjectsModal';
-
 
 declare global {
     namespace JSX {
@@ -23,7 +21,6 @@ declare global {
         }
     }
 }
-
 
 const TechnologySection = () => {
     const categories = {
@@ -64,7 +61,6 @@ const TechnologySection = () => {
         }
     };
 
-    // In the TechnologySection component, keep the existing code but update the return statement:
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {Object.entries(categories).map(([category, { icon: CategoryIcon, techs }]) => (
@@ -82,7 +78,7 @@ const TechnologySection = () => {
                             <div 
                                 key={name}
                                 className="group flex items-center gap-1.5 p-1.5 rounded-lg
-                                         bg-/50 hover:bg-white/95
+                                         bg-white/50 hover:bg-white/95
                                          transition-all duration-200 hover:-translate-y-0.5"
                             >
                                 <div className="w-4 h-4 flex items-center justify-center
@@ -100,17 +96,39 @@ const TechnologySection = () => {
             ))}
         </div>
     );
-}
+};
 
-
-
-// Custom background component with enhanced gradient
 const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
+    useEffect(() => {
+        const setVH = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+
+        return () => {
+            window.removeEventListener('resize', setVH);
+            window.removeEventListener('orientationchange', setVH);
+        };
+    }, []);
+
     return (
-        <div className="min-h-screen relative bg-gradient-to-br from-[#e2e8f0] via-[#cbd5e1] to-[#94a3b8]">
+        <div 
+            className="fixed inset-0 overflow-y-auto scrollbar-none touch-pan-y"
+            style={{
+                height: 'calc(var(--vh, 1vh) * 100)',
+                WebkitOverflowScrolling: 'touch'
+            }}
+        >
+            {/* Base gradient */}
+            <div className="fixed inset-0 bg-gradient-to-br from-[#e2e8f0] via-[#cbd5e1] to-[#94a3b8] -z-30" />
+            
             {/* Grain overlay */}
             <div 
-                className="absolute inset-0 opacity-50"
+                className="fixed inset-0 opacity-50 -z-20"
                 style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
                     backgroundRepeat: 'repeat',
@@ -118,16 +136,18 @@ const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
                 }}
             />
             
-            {/* Radial gradient overlay for depth */}
+            {/* Radial gradient overlay */}
             <div 
-                className="absolute inset-0 bg-gradient-to-b from-transparent to-white/50 mix-blend-overlay"
+                className="fixed inset-0 bg-gradient-to-b from-transparent to-white/50 mix-blend-overlay -z-10"
                 style={{
                     background: 'radial-gradient(circle at top center, transparent 0%, rgba(255,255,255,0.5) 100%)'
                 }}
             />
             
             {/* Content */}
-            <div className="relative">{children}</div>
+            <div className="relative">
+                {children}
+            </div>
         </div>
     );
 };
@@ -136,27 +156,25 @@ const TextButton = ({ children, onClick, className = "" }: {
     children: React.ReactNode;
     onClick: () => void;
     className?: string;
-}) => {
-    return (
-        <button
-            onClick={onClick}
-            className={`
-                px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full 
-                flex items-center justify-center border border-slate-200/20
-                hover:bg-white hover:shadow-lg hover:-translate-y-0.5
-                hover:border-slate-200/30 group
-                transition-all duration-300 ease-out
-                ${className}
-            `}
-        >
-            <span className="font-secondary text-lg text-navy-600 
-                         group-hover:text-navy-800
-                         transition-all duration-300">
-                {children}
-            </span>
-        </button>
-    );
-};
+}) => (
+    <button
+        onClick={onClick}
+        className={`
+            px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full 
+            flex items-center justify-center border border-slate-200/20
+            hover:bg-white hover:shadow-lg hover:-translate-y-0.5
+            hover:border-slate-200/30 group
+            transition-all duration-300 ease-out
+            ${className}
+        `}
+    >
+        <span className="font-secondary text-lg text-navy-600 
+                     group-hover:text-navy-800
+                     transition-all duration-300">
+            {children}
+        </span>
+    </button>
+);
 
 const SocialLink = ({ Icon, href }: {
     Icon: React.ComponentType<any>;
@@ -206,13 +224,11 @@ const Home = () => {
     ];
 
     useEffect(() => {
-        // Load Spline viewer
         const script = document.createElement('script');
         script.type = 'module';
         script.src = 'https://unpkg.com/@splinetool/viewer@1.9.46/build/spline-viewer.js';
         document.head.appendChild(script);
 
-        // Simulate loading
         const timer = setTimeout(() => {
             setIsLoading(false);
             setTimeout(() => setRevealContent(true), 300);
@@ -257,7 +273,7 @@ const Home = () => {
                         flex gap-8 
                         ${isMobileLike ? 'flex-col items-center py-8' : 'flex-row items-center justify-center md:py-0'}
                     `}>
-                        {/* Left Side - Text Content */}
+                        {/* Left Side */}
                         <div className={`
                             w-full ${isMobileLike ? 'text-center' : 'md:w-1/2 text-left'}
                         `}>
@@ -327,7 +343,11 @@ const Home = () => {
                     </div>
 
                     {/* Technology Section */}
-                    <div className="mt-12">
+                    <div className={`
+                        mt-12 mb-8
+                        transform transition-all duration-700 delay-300
+                        ${revealContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+                    `}>
                         <TechnologySection />
                     </div>
                 </div>

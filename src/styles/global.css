@@ -38,12 +38,17 @@ box-sizing: border-box;
 html, body {
     height: -webkit-fill-available;
     overscroll-behavior-y: none;
-  }
-  
-  #root {
+}
+
+#root {
     height: 100vh;
     height: -webkit-fill-available;
-  }
+}
+
+/* Optional: for smoother scrolling */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
 
 /* Only needed for iOS height calculations */
 @supports (-webkit-touch-callout: none) {

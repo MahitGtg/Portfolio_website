@@ -15,6 +15,7 @@ interface ProjectCardProps {
         type: 'image' | 'video' | 'interactive';
         content: string | React.ReactNode;
         isMobile?: boolean;
+        fallbackImage?: string;
     };
     githubLink?: string;
     deployedLink?: string;
@@ -153,7 +154,39 @@ const ProjectCard = ({
                 );
             }
 
+            // Inside your DemoContent component
             if (demo.type === 'video' && typeof demo.content === 'string') {
+                const [videoError, setVideoError] = useState(false);
+                const [loadTimeout, setLoadTimeout] = useState(false);
+
+                useEffect(() => {
+                    // Set a 5 second timeout for video loading
+                    const timeoutId = setTimeout(() => {
+                        if (!isLoaded) {
+                            setLoadTimeout(true);
+                            console.log('Video load timeout - switching to fallback image');
+                        }
+                    }, 5000);
+
+                    return () => clearTimeout(timeoutId);
+                }, [isLoaded]);
+
+                // Show fallback image if video fails or times out
+                if ((videoError || loadTimeout) && demo.fallbackImage) {
+                    return (
+                        <motion.img
+                            variants={contentVariants}
+                            initial="hidden"
+                            animate={isLoaded ? "visible" : "hidden"}
+                            src={demo.fallbackImage}
+                            alt={title}
+                            className="w-full aspect-[16/10] object-cover"
+                            onLoad={() => setIsLoaded(true)}
+                            loading="eager"
+                        />
+                    );
+                }
+
                 return (
                     <motion.video
                         variants={contentVariants}
@@ -166,7 +199,11 @@ const ProjectCard = ({
                         loop
                         playsInline
                         preload="auto"
-                        onLoadedData={() => setIsLoaded(true)}
+                        onLoadedData={() => {
+                            setIsLoaded(true);
+                            setLoadTimeout(false); // Clear timeout flag if video loads successfully
+                        }}
+                        onError={() => setVideoError(true)}
                     />
                 );
             }
