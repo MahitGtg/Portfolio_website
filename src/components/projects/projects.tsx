@@ -205,7 +205,8 @@ export interface ProjectData {
         name: string;
         role?: string;
         link?: string;
-    }[];
+    }[]
+    link?: string;
 }
 
 export const projectsData: ProjectData[] = [
@@ -248,7 +249,9 @@ export const projectsData: ProjectData[] = [
             
         ],
         deployedLink: 'https://penni.codersforcauses.org/',
+        link: '/https://penni.codersforcauses.org/'
     },
+
     {
         title: 'Editor Portfolio',
         type: 'Web Development',
@@ -263,7 +266,9 @@ export const projectsData: ProjectData[] = [
             content: EditorPortfolio
         },
         githubLink: 'https://github.com/MahitGtg/Toymeet_Portfolio_Website',
-        deployedLink: 'https://toymeetedits.netlify.app/work'
+        deployedLink: 'https://toymeetedits.netlify.app/work',
+        link: '/https://toymeetedits.netlify.app/work'
+
     },
     {
         title: 'Kazooey',
@@ -282,7 +287,8 @@ export const projectsData: ProjectData[] = [
         contributors: [
             { name: "Coders For Causes", role: "Hackathon", link: "https://codersforcauses.org" }
             
-        ]
+        ],
+        link: '/https://techno-uwa.wixsite.com/kasooey/tracker'
     },
     {
         title: 'VirusWare',

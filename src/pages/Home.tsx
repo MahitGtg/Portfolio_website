@@ -108,14 +108,14 @@ const TechnologySection = () => {
                             <div 
                                 key={name}
                                 className="group flex items-center gap-1.5 p-1.5 rounded-lg
-                                         bg-white/50 hover:bg-white/95
+                                         bg-/50 hover:bg-white/95
                                          transition-all duration-200 hover:-translate-y-0.5"
                             >
                                 <div className="w-4 h-4 flex items-center justify-center
                                               opacity-70 group-hover:opacity-100 transition-opacity">
                                     <Icon />
                                 </div>
-                                <span className="text-xs font-mono text-navy-600 
+                                <span className="text-xs font-secondary text-navy-600 
                                                group-hover:text-navy-800 transition-colors">
                                     {name}
                                 </span>

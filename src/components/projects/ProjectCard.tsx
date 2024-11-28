@@ -28,7 +28,7 @@ interface ProjectCardProps {
         delay?: number;
         duration?: number;
     };
-    link?: string; 
+    link?: string;
 }
 
 const cardVariants = {
@@ -44,14 +44,7 @@ const cardVariants = {
             ease: [0.21, 0.45, 0.05, 0.95],
             delay: custom * 0.1,
         }
-    }),
-    hover: {
-        y: -4,
-        transition: {
-            duration: 0.3,
-            ease: "easeOut"
-        }
-    }
+    })
 };
 
 const contentVariants = {
@@ -101,14 +94,14 @@ const ProjectCard = ({
     custom,
     link
 }: ProjectCardProps) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleClick = () => {
         if (link) {
             window.location.href = link;
         }
     };
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (typeof demo.content === 'string') {
@@ -247,7 +240,7 @@ const ProjectCard = ({
                             animate={{ opacity: 0.6 }}
                             transition={{ delay: 0.3 }}
                         >
-                            <span className="font-mono text-[10px] text-navy-600">
+                            <span className="font-main text-[10px] text-navy-600">
                                 {title}
                             </span>
                         </motion.div>
@@ -273,15 +266,13 @@ const ProjectCard = ({
     return (
         <motion.div 
             className={`bg-white/80 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-200/20 
-                     shadow-soft hover:shadow-card transition-all duration-300
-                     max-w-md mx-auto w-full flex flex-col group
-                     ${link ? 'cursor-pointer active:scale-95' : ''}`}
+                     shadow-soft hover:shadow-xl transition-all duration-200
+                     max-w-md mx-auto w-full flex flex-col group relative
+                     ${link ? 'cursor-pointer hover:border-navy-200/30' : ''}`}
             onClick={handleClick}
-            whileTap={link ? { scale: 0.98 } : undefined}
             variants={cardVariants}
             initial="hidden"
             animate="visible"
-            whileHover="hover"
             custom={custom}
             layout
         >
@@ -330,18 +321,17 @@ const ProjectCard = ({
                 </p>
 
                 <div className="mt-auto">
-                    {/* Tech Stack */}
                     <div className="flex flex-wrap gap-1.5 mb-3">
                         {techStack.map((tech, index) => (
                             <div 
                                 key={index}
                                 className="bg-white/50 px-2 py-1 rounded-full flex items-center gap-1.5
-                                        hover:bg-white hover:shadow-soft transition-all duration-200"
+                                         hover:bg-white hover:shadow-soft transition-all duration-200"
                             >
                                 <div className="w-4 h-4 flex items-center justify-center">
                                     {tech.icon}
                                 </div>
-                                <span className="font-mono text-[10px] text-navy-600">{tech.name}</span>
+                                <span className="font-main text-[10px] text-navy-600">{tech.name}</span>
                             </div>
                         ))}
                     </div>
@@ -380,4 +370,3 @@ const ProjectCard = ({
 };
 
 export default ProjectCard;
-
