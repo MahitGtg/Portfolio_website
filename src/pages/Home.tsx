@@ -7,7 +7,7 @@ import {
     CIcon, CSSIcon, DockerIcon, FigmaIcon, FlaskIcon, GitIcon,
     HTMLIcon, JavaIcon, JsIcon, NodeIcon, PostgresIcon,
     PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, NextjsIcon, BootstrapIcon, VSCodeIcon,
-    PandaIcon, UbuntuIcon
+    PandaIcon, UbuntuIcon 
 } from '../assets/icons/technologies';
 import { useViewport } from '../hooks/useViewport';
 import ProjectsModalComponent from '../components/projects/ProjectsModal';
@@ -62,31 +62,31 @@ const TechnologySection = () => {
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
             {Object.entries(categories).map(([category, { icon: CategoryIcon, techs }]) => (
                 <div key={category} 
-                     className="bg-white/90 backdrop-blur-sm rounded-xl p-4 border border-slate-200/20
+                     className="bg-[#0F1416]/90 backdrop-blur-sm rounded-xl p-4 border border-slate-200/20
                               shadow-soft hover:shadow-card transition-all duration-300"
                 >
                     <div className="flex items-center gap-2 mb-3">
-                        <CategoryIcon className="w-4 h-4 text-navy-600" />
-                        <h3 className="text-xl font-secondary font-semibold text-navy-800">{category}</h3>
+                        <CategoryIcon className="w-4 h-4 text-white/50" />
+                        <h3 className="text-xl font-secondary font-medium text-[#aab8d4]">{category}</h3>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-1.5">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-1.5">
                         {techs.map(({ Icon, name }) => (
                             <div 
                                 key={name}
                                 className="group flex items-center gap-1.5 p-1.5 rounded-lg
-                                         bg-white/50 hover:bg-white/95
+                                         bg-[#0F1416] hover:bg-black/95
                                          transition-all duration-200 hover:-translate-y-0.5"
                             >
                                 <div className="w-4 h-4 flex items-center justify-center
                                               opacity-70 group-hover:opacity-100 transition-opacity">
                                     <Icon />
                                 </div>
-                                <span className="text-m font-secondary font-semi text-navy-600 
-                                               group-hover:text-navy-800 transition-colors">
+                                <span className="text-m font-secondary font-semi text-[#aab8d4]
+                                               group-hover:text-white transition-colors">
                                     {name}
                                 </span>
                             </div>
@@ -120,27 +120,66 @@ const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
             className="fixed inset-0 overflow-y-auto scrollbar-none touch-pan-y"
             style={{
                 height: 'calc(var(--vh, 1vh) * 100)',
-                WebkitOverflowScrolling: 'touch'
+                WebkitOverflowScrolling: 'touch',
+                position: 'relative'
             }}
         >
             {/* Base gradient */}
-            <div className="fixed inset-0 bg-gradient-to-br from-[#e2e8f0] via-[#cbd5e1] to-[#94a3b8] -z-30" />
+            <div className="fixed inset-0 bg-gradient-to-br from-[#18242C] via-[#23343F] to-[#253342] -z-5" />
             
-            {/* Grain overlay */}
+            {/* Primary heavy grain */}
             <div 
-                className="fixed inset-0 opacity-50 -z-20"
+                className="fixed inset-0"
                 style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                    content: '""',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E")`,
                     backgroundRepeat: 'repeat',
-                    backgroundSize: '100px 100px',
+                    backgroundSize: '120px',
+                    opacity: 0.25,
+                    mixBlendMode: 'overlay'
+                }}
+            />
+
+            {/* Secondary grain layer */}
+            <div 
+                className="fixed inset-0"
+                style={{
+                    content: '""',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: '80px',
+                    opacity: 0.2,
+                    mixBlendMode: 'soft-light'
+                }}
+            />
+
+            {/* Fine detail grain */}
+            <div 
+                className="fixed inset-0"
+                style={{
+                    content: '""',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: '60px',
+                    opacity: 0.15,
+                    mixBlendMode: 'multiply'
                 }}
             />
             
-            {/* Radial gradient overlay */}
+            {/* Light gradient overlay */}
             <div 
-                className="fixed inset-0 bg-gradient-to-b from-transparent to-white/50 mix-blend-overlay -z-10"
+                className="fixed inset-0 opacity-30"
                 style={{
-                    background: 'radial-gradient(circle at top center, transparent 0%, rgba(255,255,255,0.5) 100%)'
+                    background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)'
                 }}
             />
             
@@ -160,16 +199,16 @@ const TextButton = ({ children, onClick, className = "" }: {
     <button
         onClick={onClick}
         className={`
-            px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full 
+            px-4 py-1.5 bg-black/90 backdrop-blur-sm rounded-full 
             flex items-center justify-center border border-slate-200/20
-            hover:bg-white hover:shadow-lg hover:-translate-y-0.5
+            hover:bg-black hover:shadow-lg hover:-translate-y-0.5
             hover:border-slate-200/30 group
             transition-all duration-300 ease-out
             ${className}
         `}
     >
-        <span className="font-secondary text-lg text-navy-600 
-                     group-hover:text-navy-800
+        <span className="font-secondary text-lg text-white/50
+                     group-hover:text-white/100
                      transition-all duration-300">
             {children}
         </span>
@@ -184,16 +223,16 @@ const SocialLink = ({ Icon, href }: {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full 
+        className="w-10 h-10 bg-black/90 backdrop-blur-sm rounded-full 
                 flex items-center justify-center border border-slate-200/20
-                hover:bg-white hover:shadow-lg hover:-translate-y-0.5
+                hover:bg-black hover:shadow-lg hover:-translate-y-0.5
                 hover:border-slate-200/30 group
                 transition-all duration-300 ease-out"
     >
-        <Icon className="w-5 h-5 text-navy-600
+        <Icon className="w-5 h-5 text-white/50
                     opacity-70 group-hover:opacity-100
                     transition-all duration-300
-                    transform group-hover:scale-110" />
+                    transform group-hover:scale-110 " />
     </a>
 );
 
@@ -279,10 +318,10 @@ const Home = () => {
                         `}>
                             {/* Name and Title */}
                             <div className="space-y-1 mb-4">
-                                <h2 className="font-secondary text-2xl font-medium text-navy-600/90">
+                                <h2 className="font-secondary text-2xl font-medium text-[#aab8d4]">
                                     Hi I am
                                 </h2>
-                                <h1 className="font-main text-5xl md:text-7xl font-black text-navy-800
+                                <h1 className="font-main text-5xl md:text-7xl font-black text-white/80
                                              tracking-tight">
                                     Mahit Gupta
                                 </h1>
@@ -290,15 +329,15 @@ const Home = () => {
 
                             {/* Role and Location */}
                             <div className="space-y-3 mb-6">
-                                <p className="font-secondary text-lg text-navy-600/90">
+                                <p className="font-secondary text-lg text-[#aab8d4]">
                                     {"< Software Developer / Cybersecurity / AI >"}
                                 </p>
                                 <div className={`
                                     flex items-center gap-2
                                     ${isMobileLike ? 'justify-center' : 'justify-start'}
                                 `}>
-                                    <MapPin className="w-5 h-5 text-navy-600/80" />
-                                    <span className="font-secondary text-lg text-navy-600/90">
+                                    <MapPin className="w-5 h-5 text-[#aab8d4]" />
+                                    <span className="font-secondary text-lg text-[#aab8d4]">
                                         Perth, Western Australia
                                     </span>
                                 </div>
@@ -334,7 +373,7 @@ const Home = () => {
                                 <div className="w-[500px] h-[300px]">
                                     <spline-viewer 
                                         loading-anim-type="spinner-small-dark" 
-                                        url="https://prod.spline.design/EL2uRfTPZM9xdCkz/scene.splinecode"
+                                        url="https://prod.spline.design/te72fzfaMI1EhWWA/scene.splinecode"
                                         className="bg-transparent" 
                                     />
                                 </div>
@@ -357,3 +396,4 @@ const Home = () => {
 };
 
 export default Home;
+

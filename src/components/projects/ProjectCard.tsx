@@ -213,7 +213,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         if (demo.isMobile && typeof demo.content === 'string') {
             return (
-                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-gray-50 to-gray-100">
+                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-black-50 to-black-100">
                     <motion.div 
                         variants={animations.content}
                         initial="hidden"
@@ -229,10 +229,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                                 loading="eager"
                             />
                             <div className="absolute inset-0 pointer-events-none">
-                                <div className="absolute -left-2 top-1/3 w-1 h-1 bg-gray-200 rounded-full" />
-                                <div className="absolute -left-2 top-2/3 w-1 h-1 bg-gray-200 rounded-full" />
-                                <div className="absolute -right-2 top-1/3 w-1 h-1 bg-gray-200 rounded-full" />
-                                <div className="absolute -right-2 top-2/3 w-1 h-1 bg-gray-200 rounded-full" />
+                                <div className="absolute -left-2 top-1/3 w-1 h-1 bg-white-200 rounded-full" />
+                                <div className="absolute -left-2 top-2/3 w-1 h-1 bg-white-200 rounded-full" />
+                                <div className="absolute -right-2 top-1/3 w-1 h-1 bg-white-200 rounded-full" />
+                                <div className="absolute -right-2 top-2/3 w-1 h-1 bg-white-200 rounded-full" />
                             </div>
                         </div>
                     </motion.div>
@@ -262,7 +262,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                         {isLoading && <LoadingPlaceholder />}
                     </AnimatePresence>
 
-                    <div className="absolute top-0 left-0 right-0 h-7 bg-white rounded-t-lg flex items-center px-3 z-20">
+                    <div className="absolute top-0 left-0 right-0 h-7 bg-black rounded-t-lg flex items-center px-3 z-20">
                         <motion.div 
                             className="flex items-center gap-1.5"
                             initial={{ opacity: 0 }}
@@ -280,7 +280,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                             animate={{ opacity: 0.6 }}
                             transition={{ delay: 0.3 }}
                         >
-                            <span className="font-mono text-[10px] text-navy-600">
+                            <span className="font-mono text-[10px] text-white/50">
                                 {title}
                             </span>
                         </motion.div>
@@ -306,7 +306,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     return (
         <motion.div 
             className={`
-                bg-white/80 backdrop-blur-sm rounded-lg overflow-hidden 
+                bg-black/80 backdrop-blur-sm rounded-lg overflow-hidden 
                 border border-slate-200/20 
                 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)]
                 hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.15)]
@@ -323,7 +323,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             layout
             whileHover={{ y: -4 }}
         >
-            <motion.div className="relative bg-black/5 flex-shrink-0" layout>
+            <motion.div className="relative bg-white/5 flex-shrink-0" layout>
                 <DemoContainer />
             </motion.div>
 
@@ -336,10 +336,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             >
                 <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="min-w-0 flex-1">
-                        <h3 className="font-main text-base font-bold text-navy-800 mb-0.5 truncate">
+                        <h3 className="font-main text-base font-bold text-white mb-0.5 truncate">
                             {title}
                         </h3>
-                        <p className="font-main text-xs text-navy-600">{type}</p>
+                        <p className="font-main text-xs text-white/75">{type}</p>
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
                         {githubLink && (
@@ -347,7 +347,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                                 href={githubLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-navy-600 hover:text-navy-800 transition-colors duration-200"
+                                className="text-white hover:text-white transition-colors duration-200"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <GitHubIcon className="w-5 h-5" />
@@ -358,7 +358,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                                 href={deployedLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-navy-600 hover:text-navy-800 transition-colors duration-200"
+                                className="text-white hover:text-white transition-colors duration-200"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <ExternalLink className="w-5 h-5" />
@@ -367,7 +367,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     </div>
                 </div>
 
-                <p className="font-secondary text-xs leading-relaxed text-navy-600 mb-4 flex-grow">
+                <p className="font-secondary text-sm leading-relaxed text-[#aab8d4] mb-4 flex-grow">
                     {description}
                 </p>
 
@@ -376,14 +376,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                         {techStack.map((tech, index) => (
                             <div 
                                 key={index}
-                                className="bg-white/50 px-2 py-1 rounded-full flex items-center gap-1.5
-                                         hover:bg-white hover:shadow-sm transition-all duration-200"
+                                className="bg-black/50 px-2 py-1 rounded-full flex items-center gap-1.5
+                                         hover:bg-slate hover:shadow-sm transition-all duration-200"
                             >
                                 <div className="w-4 h-4 flex items-center justify-center opacity-70
                                             group-hover:opacity-100 transition-opacity">
                                     {tech.icon}
                                 </div>
-                                <span className="font-main text-[10px] text-navy-600">{tech.name}</span>
+                                <span className="font-main text-[10px] text-white/75">{tech.name}</span>
                             </div>
                         ))}
                     </div>
@@ -393,13 +393,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                             <div className="flex flex-wrap gap-x-2 gap-y-1">
                                 {contributors.map((contributor, index) => (
                                     <div key={index} 
-                                         className="font-secondary text-xs text-navy-600">
+                                         className="font-secondary text-xs text-[#aab8d4]">
                                         {contributor.link ? (
                                             <a
                                                 href={contributor.link}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="hover:text-navy-800 transition-colors"
+                                                className="hover:text-white transition-colors"
                                                 onClick={(e) => e.stopPropagation()}
                                             >
                                                 {contributor.name}
@@ -408,7 +408,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                                             <span>{contributor.name}</span>
                                         )}
                                         {contributor.role && (
-                                            <span className="text-navy-400 ml-1 text-[10px]">
+                                            <span className="text-navy-400 ml-1 text-xs">
                                                 ({contributor.role})
                                             </span>
                                         )}
