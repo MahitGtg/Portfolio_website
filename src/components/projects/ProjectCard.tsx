@@ -28,6 +28,7 @@ interface ProjectCardProps {
         delay?: number;
         duration?: number;
     };
+    link?: string; 
 }
 
 const cardVariants = {
@@ -98,8 +99,14 @@ const ProjectCard = ({
     contributors,
     demo,
     custom,
-    
+    link
 }: ProjectCardProps) => {
+
+    const handleClick = () => {
+        if (link) {
+            window.location.href = link;
+        }
+    };
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -240,7 +247,7 @@ const ProjectCard = ({
                             animate={{ opacity: 0.6 }}
                             transition={{ delay: 0.3 }}
                         >
-                            <span className="font-main text-[10px] text-navy-600">
+                            <span className="font-mono text-[10px] text-navy-600">
                                 {title}
                             </span>
                         </motion.div>
@@ -265,9 +272,12 @@ const ProjectCard = ({
 
     return (
         <motion.div 
-            className="bg-white/80 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-200/20 
+            className={`bg-white/80 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-200/20 
                      shadow-soft hover:shadow-card transition-all duration-300
-                     max-w-md mx-auto w-full flex flex-col group"
+                     max-w-md mx-auto w-full flex flex-col group
+                     ${link ? 'cursor-pointer active:scale-95' : ''}`}
+            onClick={handleClick}
+            whileTap={link ? { scale: 0.98 } : undefined}
             variants={cardVariants}
             initial="hidden"
             animate="visible"
@@ -289,7 +299,7 @@ const ProjectCard = ({
                 <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="min-w-0 flex-1">
                         <h3 className="font-main text-base font-bold text-navy-800 mb-0.5 truncate">{title}</h3>
-                        <p className="font-main text-xs text-navy-600">{type}</p>
+                        <p className="font-mono text-xs text-navy-600">{type}</p>
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
                         {githubLink && (
@@ -320,15 +330,18 @@ const ProjectCard = ({
                 </p>
 
                 <div className="mt-auto">
+                    {/* Tech Stack */}
                     <div className="flex flex-wrap gap-1.5 mb-3">
                         {techStack.map((tech, index) => (
                             <div 
                                 key={index}
                                 className="bg-white/50 px-2 py-1 rounded-full flex items-center gap-1.5
-                                         hover:bg-white hover:shadow-soft transition-all duration-200"
+                                        hover:bg-white hover:shadow-soft transition-all duration-200"
                             >
-                                <span className="w-3.5 h-3.5">{tech.icon}</span>
-                                <span className="font-mono text-xs text-navy-600">{tech.name}</span>
+                                <div className="w-4 h-4 flex items-center justify-center">
+                                    {tech.icon}
+                                </div>
+                                <span className="font-mono text-[10px] text-navy-600">{tech.name}</span>
                             </div>
                         ))}
                     </div>
@@ -367,3 +380,4 @@ const ProjectCard = ({
 };
 
 export default ProjectCard;
+

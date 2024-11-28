@@ -6,7 +6,9 @@ import { Mail } from 'lucide-react';
 import {
     CIcon, CSSIcon, DockerIcon, FigmaIcon, FlaskIcon, GitIcon,
     HTMLIcon, JavaIcon, JsIcon, NodeIcon, PostgresIcon,
-    PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, NextjsIcon, BootstrapIcon, VSCodeIcon
+    PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, NextjsIcon, BootstrapIcon, VSCodeIcon,
+    PandaIcon,
+    UbuntuIcon
 } from '../assets/icons/technologies';
 import { useViewport } from '../hooks/useViewport';
 import GrainyBackground from '../components/grainy';
@@ -81,7 +83,9 @@ const TechnologySection = () => {
                 { Icon: GitIcon, name: 'Git' },
                 { Icon: DockerIcon, name: 'Docker' },
                 { Icon: PostgresIcon, name: 'PostgreSQL' },
-                { Icon: FigmaIcon, name: 'Figma' }
+                { Icon: FigmaIcon, name: 'Figma' },
+                { Icon: PandaIcon, name: 'Pandas' },
+                { Icon: UbuntuIcon, name: 'Ubuntu' }
             ]
         }
     };

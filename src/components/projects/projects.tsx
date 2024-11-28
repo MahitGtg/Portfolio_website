@@ -102,7 +102,6 @@ const MTDDemo = () => {
 
 const ResistanceDemo = () => {
     const [missionStatus, setMissionStatus] = useState<'success'|'fail'>('success');
-    const [scanningLinePos, setScanningLinePos] = useState(0);
 
     useEffect(() => {
         // Alternate between success and fail states
@@ -110,14 +109,10 @@ const ResistanceDemo = () => {
             setMissionStatus(prev => prev === 'success' ? 'fail' : 'success');
         }, 2000);
 
-        // Background scanning effect
-        const scanInterval = setInterval(() => {
-            setScanningLinePos(prev => (prev + 1) % 100);
-        }, 50);
+        
 
         return () => {
             clearInterval(statusInterval);
-            clearInterval(scanInterval);
         };
     }, []);
 
@@ -140,18 +135,6 @@ const ResistanceDemo = () => {
                         }}
                     />
                 </div>
-
-                {/* Scanning Line Effect */}
-                <div 
-                    className={`
-                        absolute h-px w-full opacity-20 transition-colors duration-1000
-                        ${missionStatus === 'fail' ? 'bg-[#ef4444]' : 'bg-[#3b82f6]'}
-                    `}
-                    style={{
-                        top: `${scanningLinePos}%`,
-                        boxShadow: `0 0 10px 2px ${missionStatus === 'fail' ? '#ef4444' : '#3b82f6'}`
-                    }}
-                />
 
                 {/* Floating particles */}
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -263,7 +246,8 @@ export const projectsData: ProjectData[] = [
         contributors: [
             { name: "Coders For Causes", role: "Organization", link: "https://codersforcauses.org" }
             
-        ]
+        ],
+        deployedLink: 'https://penni.codersforcauses.org/',
     },
     {
         title: 'Editor Portfolio',
