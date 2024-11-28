@@ -11,7 +11,7 @@ import { FileSearch, Lock, ShieldCheck, Swords } from 'lucide-react';
 import FitTrackerDemo from '../../assets/project_images/FitTraker_demo.mp4';
 import PenniShowcase from '../../assets/project_images/iphone_image.png';
 import VirusWare from '../../assets/project_images/virusware.png';
-import Kazooey from '../../assets/project_images/kazooey.png';
+import kazooey from '../../assets/project_images/Kazooey.png';
 import EditorPortfolio from '../../assets/project_images/Toymeet.png';
 
 import { useState, useEffect } from 'react';
@@ -292,7 +292,7 @@ export const projectsData: ProjectData[] = [
         ],
         demo: {
             type: 'image',
-            content: Kazooey
+            content: kazooey
         },
         deployedLink: 'https://techno-uwa.wixsite.com/kasooey/tracker',
         contributors: [
