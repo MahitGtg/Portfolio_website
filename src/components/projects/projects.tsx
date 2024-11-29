@@ -251,7 +251,7 @@ export const projectsData: ProjectData[] = [
             
         ],
         deployedLink: 'https://penni.codersforcauses.org/',
-        link: '/https://penni.codersforcauses.org/'
+        link: 'https://penni.codersforcauses.org/'
     },
 
     {
@@ -290,7 +290,7 @@ export const projectsData: ProjectData[] = [
             { name: "Coders For Causes", role: "Hackathon", link: "https://codersforcauses.org" }
             
         ],
-        link: '/https://techno-uwa.wixsite.com/kasooey/tracker'
+        link: 'https://techno-uwa.wixsite.com/kasooey/tracker'
     },
     {
         title: 'VirusWare',
