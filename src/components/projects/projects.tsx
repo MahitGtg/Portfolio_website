@@ -269,7 +269,7 @@ export const projectsData: ProjectData[] = [
         },
         githubLink: 'https://github.com/MahitGtg/Toymeet_Portfolio_Website',
         deployedLink: 'https://toymeetedits.netlify.app/work',
-        link: '/https://toymeetedits.netlify.app/work'
+        link: 'https://toymeetedits.netlify.app/work'
 
     },
     {
