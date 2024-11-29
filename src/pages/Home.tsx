@@ -201,15 +201,28 @@ const TextButton = ({ children, onClick, className = "" }: {
         className={`
             px-4 py-1.5 bg-black/90 backdrop-blur-sm rounded-full 
             flex items-center justify-center border border-slate-200/20
-            hover:bg-black hover:shadow-lg hover:-translate-y-0.5
+            hover:bg-black/95 hover:-translate-y-0.5
             hover:border-slate-200/30 group
+            relative overflow-hidden
             transition-all duration-300 ease-out
+            before:absolute before:inset-0
+            before:bg-[radial-gradient(circle,rgba(120,120,255,0.15),transparent_60%)]
+            before:h-[200%] before:w-[200%] before:top-[-50%] before:left-[-50%]
+            before:animate-none before:hover:animate-[spin_4s_linear_infinite]
+            after:absolute after:inset-0
+            after:opacity-0 after:hover:opacity-100
+            after:transition-opacity after:duration-500
+            after:border-2 after:border-transparent after:hover:border-slate-200/40
+            after:rounded-full
+            hover:shadow-[0_0_20px_rgba(120,120,255,0.3)]
             ${className}
         `}
     >
         <span className="font-secondary text-lg text-white/50
-                     group-hover:text-white/100
-                     transition-all duration-300">
+                     group-hover:text-white
+                     relative z-10
+                     transition-all duration-300 ease-out
+                     transform group-hover:scale-105">
             {children}
         </span>
     </button>
@@ -343,25 +356,26 @@ const Home = () => {
                                 </div>
                             </div>
 
-                            {/* Social Links */}
+                            {/* Social Links and Projects Button */}
                             <div className={`
-                                flex gap-4 mb-6
-                                ${isMobileLike ? 'justify-center' : 'justify-start'}
+                                flex gap-4
+                                ${isMobileLike ? 'flex-col items-center' : 'flex-row justify-start'}
                             `}>
-                                {socialLinks.map((link) => (
-                                    <SocialLink key={link.platform} {...link} />
-                                ))}
-                            </div>
+                                {/* Social Links */}
+                                <div className={`
+                                    flex gap-4
+                                    ${isMobileLike ? 'justify-center' : 'justify-start'}
+                                `}>
+                                    {socialLinks.map((link) => (
+                                        <SocialLink key={link.platform} {...link} />
+                                    ))}
+                                </div>
 
-                            {/* Action Buttons */}
-                            <div className={`
-                                flex gap-4 
-                                ${isMobileLike ? 'justify-center' : 'justify-start'}
-                            `}>
-                                <TextButton onClick={() => window.open("/Mahit_Gupta_Resume.pdf", "_blank")}>
-                                    Resume
-                                </TextButton>
-                                <TextButton onClick={() => setIsProjectsOpen(true)}>
+                                {/* Projects Button */}
+                                <TextButton 
+                                    onClick={() => setIsProjectsOpen(true)}
+                                    className={isMobileLike ? 'mt-2' : ''}
+                                >
                                     Projects
                                 </TextButton>
                             </div>
