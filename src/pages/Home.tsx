@@ -5,9 +5,9 @@ import { LinkedinIcon, DiscordIcon, GitHubIcon, XIcon } from '../assets/icons/so
 import { Mail } from 'lucide-react';
 import {
     CIcon, CSSIcon, DockerIcon, FigmaIcon, FlaskIcon, GitIcon,
-    HTMLIcon, JavaIcon, JsIcon, NodeIcon, PostgresIcon,
+    HTMLIcon, JavaIcon, JsIcon, PostgresIcon,
     PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, NextjsIcon, BootstrapIcon, VSCodeIcon,
-    PandaIcon, UbuntuIcon 
+    PandaIcon, UbuntuIcon, SvelteIcon, VueIcon, DjangoIcon
 } from '../assets/icons/technologies';
 import { useViewport } from '../hooks/useViewport';
 import ProjectsModalComponent from '../components/projects/ProjectsModal';
@@ -31,20 +31,23 @@ const TechnologySection = () => {
                 { Icon: JsIcon, name: 'JavaScript' },
                 { Icon: PythonIcon, name: 'Python' },
                 { Icon: JavaIcon, name: 'Java' },
-                { Icon: CIcon, name: 'C' }
+                { Icon: CIcon, name: 'C' },
+                { Icon: HTMLIcon, name: 'HTML' },
+                { Icon: CSSIcon, name: 'CSS' }
             ]
         },
         'Library & Frameworks': {
             icon: Library,
             techs: [
-                { Icon: HTMLIcon, name: 'HTML' },
-                { Icon: CSSIcon, name: 'CSS' },
                 { Icon: ReactIcon, name: 'React.js' },
                 { Icon: NextjsIcon, name: 'Next.js' },
-                { Icon: NodeIcon, name: 'Node.js' },
                 { Icon: TailwindIcon, name: 'Tailwind' },
                 { Icon: FlaskIcon, name: 'Flask' },
-                { Icon: BootstrapIcon, name: 'Bootstrap' }
+                { Icon: BootstrapIcon, name: 'Bootstrap' },
+                { Icon: SvelteIcon, name: 'Svelte' },
+                { Icon: VueIcon, name: 'Vue.js' },
+                { Icon: DjangoIcon, name: 'Django' }
+
             ]
         },
         'Tools': {

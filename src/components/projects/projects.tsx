@@ -1,187 +1,219 @@
 // src/data/projects.ts
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     HTMLIcon, CSSIcon, JsIcon, ReactIcon, TailwindIcon, TypeScriptIcon,
-    NextjsIcon, FlaskIcon, PostgresIcon, PythonIcon, GitIcon, 
+    NextjsIcon, FlaskIcon, PostgresIcon, PythonIcon, GitIcon, DjangoIcon, VueIcon, StrapiIcon, SvelteIcon, 
 } from '../../assets/icons/technologies';
 import { FileSearch, Lock, ShieldCheck, Swords } from 'lucide-react';
 
 // Import your assets
-import FitTrackerDemo from '../../assets/project_images/FitTraker_demo.mp4';
 import PenniShowcase from '../../assets/project_images/iphone_image.png';
 import VirusWare from '../../assets/project_images/virusware.png';
 import kazooey from '../../assets/project_images/Kazooey.png';
 import EditorPortfolio from '../../assets/project_images/Toymeet.png';
 import FitTrakerImgae from '../../assets/project_images/fitTrakerImage.jpeg';
-import { useState, useEffect } from 'react';
+import BlueCrewImage from '../../assets/project_images/bluecrew.png';
+import AraTang from '../../assets/project_images/AraTang.png';
 
 
-// MTD Demo Component
-const MTDDemo = () => {
-    const [scanIndex, setScanIndex] = React.useState(0);
-    const [activeNodes, setActiveNodes] = React.useState<number[]>([]);
+// This hook checks if the component is visible in the viewport
+const useIsVisible = (ref: React.RefObject<HTMLElement>) => {
+  const [isVisible, setIsVisible] = useState(false);
 
-    React.useEffect(() => {
-        const scanInterval = setInterval(() => {
-            setScanIndex(prev => (prev + 1) % 24);
-            const numActiveNodes = Math.floor(Math.random() * 3) + 2;
-            const newActiveNodes = Array.from(
-                { length: numActiveNodes }, 
-                () => Math.floor(Math.random() * 24)
-            );
-            setActiveNodes(newActiveNodes);
-        }, 1500);
+  useEffect(() => {
+    if (!ref.current) return;
+    
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, {
+      threshold: 0.1 // Trigger when at least 10% of the element is visible
+    });
 
-        return () => clearInterval(scanInterval);
-    }, []);
+    observer.observe(ref.current);
+    
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref]);
 
-    return (
-        <div className="w-full h-full bg-[#0a0f1e] p-4">
-            <div className="relative w-full h-full bg-[#141b2d]/50 rounded-lg border border-[#1b2438] overflow-hidden">
-                {/* Grid lines */}
-                <div className="absolute inset-0" 
-                    style={{
-                        backgroundImage: 'radial-gradient(circle at center, transparent 0%, transparent 90%, rgba(59, 130, 246, 0.05) 100%)',
-                        backgroundSize: '4rem 4rem'
-                    }}
-                />
-                
-                {/* Grid */}
-                <div className="absolute inset-0 grid grid-cols-6 grid-rows-4 gap-1 p-3">
-                    {Array.from({ length: 24 }).map((_, index) => (
-                        <div
-                            key={index}
-                            className={`
-                                relative rounded-lg transition-all duration-500 border
-                                ${index === scanIndex 
-                                    ? 'bg-[#0051d4]/10 border-[#0051d4]/30' 
-                                    : activeNodes.includes(index)
-                                        ? 'bg-[#024b2c]/20 border-[#024b2c]/40'
-                                        : 'bg-[#141b2d]/50 border-[#1b2438]'}
-                            `}
-                        >
-                            <div className={`
-                                absolute inset-0 flex items-center justify-center
-                                transition-opacity duration-300
-                                ${index === scanIndex || activeNodes.includes(index) ? 'opacity-100' : 'opacity-0'}
-                            `}>
-                                {index === scanIndex ? (
-                                    <FileSearch className="w-1/4 h-1/4 min-w-3 min-h-3 text-[#3b82f6]" />
-                                ) : activeNodes.includes(index) ? (
-                                    <Lock className="w-1/4 h-1/4 min-w-3 min-h-3 text-[#22c55e]" />
-                                ) : null}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Status Bar */}
-                <div className="absolute bottom-0 left-0 right-0 bg-[#0a0f1e]/80 backdrop-blur-sm px-4 py-2 border-t border-[#1b2438]">
-                    <div className="flex items-center justify-between">
-                        {/* Left side - status indicators */}
-                        <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1">
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#3b82f6]" />
-                                <span className="text-[#3b82f6] font-mono text-xs">Scanning</span>
-                            </div>
-                            
-                            <div className="flex items-center gap-1">
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#22c55e]" />
-                                <span className="text-[#22c55e] font-mono text-xs">Protected</span>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+  return isVisible;
 };
 
-const ResistanceDemo = () => {
-    const [missionStatus, setMissionStatus] = useState<'success'|'fail'>('success');
+// Optimized MTD Demo Component
+export const MTDDemo = () => {
+  const [scanIndex, setScanIndex] = useState(0);
+  const [activeNodes, setActiveNodes] = useState<number[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isVisible = useIsVisible(containerRef);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    useEffect(() => {
-        // Alternate between success and fail states
-        const statusInterval = setInterval(() => {
-            setMissionStatus(prev => prev === 'success' ? 'fail' : 'success');
-        }, 2000);
+  useEffect(() => {
+    // Only run animations when the component is visible
+    if (isVisible) {
+      // Clear any existing interval first
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      
+      // Start a new interval
+      intervalRef.current = setInterval(() => {
+        setScanIndex(prev => (prev + 1) % 24);
+        const numActiveNodes = Math.floor(Math.random() * 3) + 2;
+        const newActiveNodes = Array.from(
+          { length: numActiveNodes }, 
+          () => Math.floor(Math.random() * 24)
+        );
+        setActiveNodes(newActiveNodes);
+      }, 1500);
+    } else {
+      // Stop animations when not visible
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
 
+    // Clean up interval on unmount
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [isVisible]);
+
+  return (
+    <div ref={containerRef} className="w-full h-full bg-[#0a0f1e] p-4">
+      <div className="relative w-full h-full bg-[#141b2d]/50 rounded-lg border border-[#1b2438] overflow-hidden">
+        {/* Grid lines - Simplified to reduce rendering cost */}
+        <div className="absolute inset-0" 
+          style={{
+            backgroundImage: isVisible ? 
+              'radial-gradient(circle at center, transparent 0%, transparent 90%, rgba(59, 130, 246, 0.05) 100%)' : 
+              'none',
+            backgroundSize: '4rem 4rem'
+          }}
+        />
         
-
-        return () => {
-            clearInterval(statusInterval);
-        };
-    }, []);
-
-    return (
-        <div className="w-full h-full bg-[#0a0f1e] p-4">
-            <div className={`
-                relative w-full h-full rounded-lg overflow-hidden border
-                transition-all duration-1000
-                ${missionStatus === 'fail' 
-                    ? 'bg-[#1a0f0f] border-[#ef4444]/30' 
-                    : 'bg-[#0f1a1a] border-[#3b82f6]/30'}
-            `}>
-                {/* Background Pattern */}
-                <div className="absolute inset-0">
-                    <div 
-                        className="absolute inset-0 opacity-10 transition-all duration-1000"
-                        style={{
-                            backgroundImage: `radial-gradient(circle, ${missionStatus === 'fail' ? '#ef4444' : '#3b82f6'} 1px, transparent 1px)`,
-                            backgroundSize: '20px 20px',
-                        }}
-                    />
+        {/* Grid */}
+        <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-1 p-3">
+          {Array.from({ length: 15 }).map((_, index) => (
+            <div
+              key={index}
+              className={`
+                relative rounded-lg border
+                ${isVisible ? 'transition-all duration-500' : ''}
+                ${isVisible && index === scanIndex 
+                  ? 'bg-[#0051d4]/10 border-[#0051d4]/30' 
+                  : isVisible && activeNodes.includes(index)
+                    ? 'bg-[#024b2c]/20 border-[#024b2c]/40'
+                    : 'bg-[#141b2d]/50 border-[#1b2438]'}
+              `}
+            >
+              {isVisible && (
+                <div className={`
+                  absolute inset-0 flex items-center justify-center
+                  transition-opacity duration-300
+                  ${index === scanIndex || activeNodes.includes(index) ? 'opacity-100' : 'opacity-0'}
+                `}>
+                  {index === scanIndex ? (
+                    <FileSearch className="w-1/4 h-1/4 min-w-3 min-h-3 text-[#3b82f6]" />
+                  ) : activeNodes.includes(index) ? (
+                    <Lock className="w-1/4 h-1/4 min-w-3 min-h-3 text-[#22c55e]" />
+                  ) : null}
                 </div>
-
-                {/* Floating particles */}
-                {Array.from({ length: 6 }).map((_, i) => (
-                    <div
-                        key={i}
-                        className={`
-                            absolute w-1 h-1 rounded-full transition-all duration-1000
-                            ${missionStatus === 'fail' ? 'bg-[#ef4444]' : 'bg-[#3b82f6]'}
-                            opacity-20
-                        `}
-                        style={{
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            transform: `translate(-50%, -50%) scale(${Math.random() * 0.5 + 0.5})`,
-                            animation: `float ${Math.random() * 3 + 2}s ease-in-out infinite alternate`
-                        }}
-                    />
-                ))}
-
-                {/* Central Icons */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    {/* Fail Icon */}
-                    <div className={`
-                        absolute transition-all duration-1000 transform
-                        ${missionStatus === 'fail' ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
-                    `}>
-                        <Swords className="w-16 h-16 text-[#ef4444]" />
-                    </div>
-                    
-                    {/* Success Icon */}
-                    <div className={`
-                        absolute transition-all duration-1000 transform
-                        ${missionStatus === 'success' ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
-                    `}>
-                        <ShieldCheck className="w-16 h-16 text-[#3b82f6]" />
-                    </div>
-                </div>
-
-                <style>{`
-                    @keyframes float {
-                        0% { transform: translate(-50%, -50%) translateY(-10px); }
-                        100% { transform: translate(-50%, -50%) translateY(10px); }
-                    }
-                `}</style>
+              )}
             </div>
+          ))}
         </div>
-    );
+
+      </div>
+    </div>
+  );
+};
+
+// Optimized Resistance Demo Component
+export const ResistanceDemo = () => {
+  const [missionStatus, setMissionStatus] = useState<'success'|'fail'>('success');
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isVisible = useIsVisible(containerRef);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Memoize particles to avoid recreating them on each render
+
+  useEffect(() => {
+    // Only run animations when the component is visible
+    if (isVisible) {
+      // Clear any existing interval first
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      
+      // Alternate between success and fail states
+      intervalRef.current = setInterval(() => {
+        setMissionStatus(prev => prev === 'success' ? 'fail' : 'success');
+      }, 2000);
+    } else {
+      // Stop animations when not visible
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+
+    // Clean up interval on unmount
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [isVisible]);
+
+  return (
+    <div ref={containerRef} className="w-full h-full bg-[#0a0f1e] p-4">
+      <div className={`
+        relative w-full h-full rounded-lg overflow-hidden border
+        ${isVisible ? 'transition-all duration-1000' : ''}
+        ${isVisible && missionStatus === 'fail' 
+          ? 'bg-[#1a0f0f] border-[#ef4444]/30' 
+          : 'bg-[#0f1a1a] border-[#3b82f6]/30'}
+      `}>
+
+        {/* Central Icons */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          {/* Fail Icon */}
+          <div className={`
+            absolute transition-all duration-1000 transform
+            ${isVisible && missionStatus === 'fail' ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
+          `}>
+            <Swords className="w-16 h-16 text-[#ef4444]" />
+          </div>
+          
+          {/* Success Icon */}
+          <div className={`
+            absolute transition-all duration-1000 transform
+            ${isVisible && missionStatus === 'success' ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
+          `}>
+            <ShieldCheck className="w-16 h-16 text-[#3b82f6]" />
+          </div>
+        </div>
+
+        {/* Only add the styles when the component is visible */}
+        {isVisible && (
+          <style>{`
+            @keyframes float {
+              0% { transform: translate(-50%, -50%) translateY(-10px); }
+              100% { transform: translate(-50%, -50%) translateY(10px); }
+            }
+          `}</style>
+        )}
+      </div>
+    </div>
+  );
 };
 
 
@@ -212,18 +244,61 @@ export interface ProjectData {
 
 export const projectsData: ProjectData[] = [
     {
+        title: 'AraTang Portfolio Website',
+        type: 'Full Stack Development',
+        description:"Working in a startup, I designed and developed a portfolio website for a client’s architecture firm. I utilized Svelte for the frontend, Strapi as the content management system, and a Dev Container for the development environment. Project is still in progress.",
+
+        techStack: [
+            { name: 'Svelte', icon: <SvelteIcon /> },
+            { name: 'Strapi', icon: <StrapiIcon /> },
+            { name: 'TypeScript', icon: <TypeScriptIcon /> }
+        ],
+        demo: {
+            type: 'image',
+            content: AraTang  
+        },
+        contributors: [
+            { name: "0x3f Labs", role: "Organization", link: "https://www.linkedin.com/company/0x3f-labs/posts/?feedView=all" }
+            
+        ],
+        githubLink: 'https://github.com/0x3F-Lab/aratang-website',
+    },
+    {
+        title: 'BlueCrew',
+        type: 'Full Stack Development',
+        description:"Connect people to the ocean and inspire positive actions for local blue spaces. I worked mainly as a backend developer connecting frontend with backend api and working on user modals/views but also did some frontend and UI/UX design work.",
+
+        techStack: [
+            { name: 'Vue.js', icon: <VueIcon /> },
+            { name: 'Django', icon: <DjangoIcon /> },
+            { name: 'TypeScript', icon: <TypeScriptIcon /> }
+        ],
+        demo: {
+            type: 'image',
+            content: BlueCrewImage  
+        },
+        contributors: [
+            { name: "Coders For Causes", role: "Organization", link: "https://codersforcauses.org" }
+            
+        ],
+        githubLink: 'https://github.com/codersforcauses/bluecrew',
+        deployedLink: 'https://blingo.com.au/',
+        link: 'https://blingo.com.au/'
+    },
+    {
         title: 'FitTraker',
         type: 'Full Stack Development',
         description: "A full-stack fitness assessment platform enabling tracking and visualization of student fitness data across university units. Built for UWA's Sport Science department, it features comprehensive data analysis tools with integrated outlier detection to provide real-time, cohort-specific fitness benchmarks.",
         techStack: [
-            { name: 'Python', icon: <PythonIcon /> },
+            { name: 'JavaScript', icon: <JsIcon /> },
+            { name: 'HTML', icon: <HTMLIcon /> },
+            { name: 'CSS', icon: <CSSIcon /> },
             { name: 'Flask', icon: <FlaskIcon /> },
             { name: 'PostgreSQL', icon: <PostgresIcon /> },
-            { name: 'JavaScript', icon: <JsIcon /> }
         ],
         demo: {
-            type: 'video',
-            content: FitTrackerDemo,
+            type: 'image',
+            content: FitTrakerImgae,
             fallbackImage: FitTrakerImgae
         },
         contributors: [

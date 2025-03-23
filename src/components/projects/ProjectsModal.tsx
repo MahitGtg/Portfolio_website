@@ -75,19 +75,21 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ isOpen, onClose }) => {
                             </button>
                         </div>
 
-                        {/* Projects Grid */}
-                        <div className="absolute inset-0 pt-16 pb-4 px-4 
+                        {/* Projects Grid - with optimizations */}
+                        <div 
+                            className="absolute inset-0 pt-16 pb-4 px-4 
                                       overflow-y-auto scrollbar-thin scrollbar-thumb-navy-200 
-                                      scrollbar-track-transparent">
+                                      scrollbar-track-transparent"
+                            style={{ 
+                                willChange: 'transform', 
+                                transform: 'translateZ(0)'
+                            }}
+                        >
                             <div className={`grid gap-4 py-4 ${isWideLayout ? 'md:grid-cols-2' : ''}`}>
-                                {projectsData.map((project, index) => (
+                                {projectsData.map((project) => (
                                     <ProjectCard 
                                         key={project.title}
                                         {...project}
-                                        custom={index}
-                                        transition={{
-                                            delay: index * 0.1,
-                                        }}
                                     />
                                 ))}
                             </div>
