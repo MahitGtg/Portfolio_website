@@ -246,7 +246,7 @@ export const projectsData: ProjectData[] = [
     {
         title: 'AraTang Portfolio Website',
         type: 'Full Stack Development',
-        description:"Working in a startup, I designed and developed a portfolio website for a client’s architecture firm. I utilized Svelte for the frontend, Strapi as the content management system, and a Dev Container for the development environment. Project is still in progress.",
+        description:"Working in a startup, designed and developed a portfolio website for a client’s architecture firm. Utilized Svelte for the frontend, Strapi as the content management system, and a Dev Container for the development environment. Project is still in progress.",
 
         techStack: [
             { name: 'Svelte', icon: <SvelteIcon /> },
