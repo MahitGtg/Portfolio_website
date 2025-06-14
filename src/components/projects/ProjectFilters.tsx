@@ -1,5 +1,3 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { Code, Shield, Brain, Grid, MoreHorizontal } from 'lucide-react';
 import AnimatedButton from '../AnimatedButton';
 
