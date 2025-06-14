@@ -17,7 +17,7 @@ import VirusWare from '../../assets/project_images/virusware.png';
 import FitTrakerImgae from '../../assets/project_images/fitTrakerImage.jpeg';
 import BlueCrewImage from '../../assets/project_images/bluecrew.png';
 import AraTang from '../../assets/project_images/AraTang.png';
-import Bookify from '../../assets/project_images/bookify.png';
+import Bookify from '../../assets/project_images/Bookify.png';
 import Networks from '../../assets/project_images/networks.png';
 import SecureAccess from '../../assets/project_images/Access_Control.png';
 
