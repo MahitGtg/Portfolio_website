@@ -95,20 +95,6 @@ const ProjectCard = memo<ProjectCardProps>(({
         }
     }, [demo, isMobileLike]);
 
-    const renderOptimizedImage = (src: string, alt: string) => (
-        <picture>
-            <source srcSet={`${src}.webp`} type="image/webp" />
-            <source srcSet={`${src}.avif`} type="image/avif" />
-            <img
-                src={src}
-                alt={alt}
-                loading="lazy"
-                decoding="async"
-                className="w-full aspect-[16/10] object-cover"
-            />
-        </picture>
-    );
-
     const renderDemo = () => {
         if (!isLoaded) {
             return <div className="w-full aspect-[16/10] bg-black/50" />;

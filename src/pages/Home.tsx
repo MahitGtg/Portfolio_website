@@ -11,6 +11,7 @@ import {
 } from '../assets/icons/technologies';
 import { useViewport } from '../hooks/useViewport';
 import ProjectsModalComponent from '../components/projects/ProjectsModal';
+import AnimatedButton from '../components/AnimatedButton';
 
 declare global {
     namespace JSX {
@@ -194,43 +195,6 @@ const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-const TextButton = ({ children, onClick, className = "" }: { 
-    children: React.ReactNode;
-    onClick: () => void;
-    className?: string;
-}) => (
-    <button
-        onClick={onClick}
-        className={`
-            px-4 py-1.5 bg-black/90 backdrop-blur-sm rounded-full 
-            flex items-center justify-center border border-slate-200/20
-            hover:bg-black/95 hover:-translate-y-0.5
-            hover:border-slate-200/30 group
-            relative overflow-hidden
-            transition-all duration-300 ease-out
-            before:absolute before:inset-0
-            before:bg-[radial-gradient(circle,rgba(120,120,255,0.15),transparent_60%)]
-            before:h-[200%] before:w-[200%] before:top-[-50%] before:left-[-50%]
-            before:animate-none before:hover:animate-[spin_4s_linear_infinite]
-            after:absolute after:inset-0
-            after:opacity-0 after:hover:opacity-100
-            after:transition-opacity after:duration-500
-            after:border-2 after:border-transparent after:hover:border-slate-200/40
-            after:rounded-full
-            hover:shadow-[0_0_20px_rgba(120,120,255,0.3)]
-            ${className}
-        `}
-    >
-        <span className="font-secondary text-lg text-white/50
-                     group-hover:text-white
-                     relative z-10
-                     transition-all duration-300 ease-out
-                     transform group-hover:scale-105">
-            {children}
-        </span>
-    </button>
-);
-
 const SocialLink = ({ Icon, href }: {
     Icon: React.ComponentType<any>;
     href: string;
@@ -375,12 +339,12 @@ const Home = () => {
                                 </div>
 
                                 {/* Projects Button */}
-                                <TextButton 
+                                <AnimatedButton 
                                     onClick={() => setIsProjectsOpen(true)}
                                     className={isMobileLike ? 'mt-2' : ''}
                                 >
                                     Projects
-                                </TextButton>
+                                </AnimatedButton>
                             </div>
                         </div>
 
