@@ -13,13 +13,13 @@ import ProjectCard from './ProjectCard';
 
 // Import your assets
 import PenniShowcase from '../../assets/project_images/iphone_image.png';
-import VirusWare from '../../assets/project_images/virusware.png';
+import VirusWare from '../../assets/project_images/virusware.jpg';
 import FitTrakerImgae from '../../assets/project_images/fitTrakerImage.jpeg';
-import BlueCrewImage from '../../assets/project_images/bluecrew.png';
-import AraTang from '../../assets/project_images/AraTang.png';
-import Bookify from '../../assets/project_images/Bookify.png';
-import Networks from '../../assets/project_images/networks.png';
-import SecureAccess from '../../assets/project_images/Access_Control.png';
+import BlueCrewImage from '../../assets/project_images/bluecrew.jpg';
+import AraTang from '../../assets/project_images/AraTang.jpg';
+import Bookify from '../../assets/project_images/Bookify.jpg';
+import Networks from '../../assets/project_images/networks.jpg';
+import SecureAccess from '../../assets/project_images/Access_Control.jpg';
 
 // This hook checks if the component is visible in the viewport
 const useIsVisible = (ref: React.RefObject<HTMLElement>) => {
