@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo, startTransition } from 'react';
 import { motion } from 'framer-motion';
 import { GitHubIcon } from '../../assets/icons/socials';
 import { ExternalLink } from 'lucide-react';
@@ -35,9 +35,9 @@ interface ProjectCardProps {
 
 const animations = {
     card: {
-        initial: { 
+        initial: {
             opacity: 0,
-            y: 20 
+            y: 20
         },
         animate: (custom: number) => ({
             opacity: 1,
@@ -51,7 +51,7 @@ const animations = {
     },
     content: {
         initial: { opacity: 0 },
-        animate: { 
+        animate: {
             opacity: 1,
             transition: {
                 duration: 0.2
@@ -60,7 +60,7 @@ const animations = {
     }
 };
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ 
+const ProjectCard = memo<ProjectCardProps>(({
     title,
     description,
     type,
@@ -80,30 +80,44 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             if (demo.type === 'image') {
                 const img = new Image();
                 img.src = demo.content;
-                img.onload = () => setIsLoaded(true);
+                img.onload = () => startTransition(() => setIsLoaded(true));
             } else if (demo.type === 'video') {
                 if (isMobileLike) {
-                    setIsLoaded(true); // For mobile, immediately ready with fallback
+                    startTransition(() => setIsLoaded(true)); // For mobile, immediately ready with fallback
                 } else {
                     const video = document.createElement('video');
                     video.src = demo.content;
-                    video.onloadeddata = () => setIsLoaded(true);
+                    video.onloadeddata = () => startTransition(() => setIsLoaded(true));
                 }
             }
         } else {
-            setIsLoaded(true);
+            startTransition(() => setIsLoaded(true));
         }
     }, [demo, isMobileLike]);
-    
+
+    const renderOptimizedImage = (src: string, alt: string) => (
+        <picture>
+            <source srcSet={`${src}.webp`} type="image/webp" />
+            <source srcSet={`${src}.avif`} type="image/avif" />
+            <img
+                src={src}
+                alt={alt}
+                loading="lazy"
+                decoding="async"
+                className="w-full aspect-[16/10] object-cover"
+            />
+        </picture>
+    );
+
     const renderDemo = () => {
         if (!isLoaded) {
             return <div className="w-full aspect-[16/10] bg-black/50" />;
         }
-    
+
         // For interactive demos
         if (demo.type === 'interactive' && React.isValidElement(demo.content)) {
             return (
-                <motion.div 
+                <motion.div
                     variants={animations.content}
                     initial="hidden"
                     animate="visible"
@@ -113,12 +127,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 </motion.div>
             );
         }
-    
+
         // For mobile device mockups
         if (demo.isMobile && typeof demo.content === 'string') {
             return (
                 <div className="relative w-full aspect-[16/10] bg-black">
-                    <motion.div 
+                    <motion.div
                         variants={animations.content}
                         initial="hidden"
                         animate={isLoaded ? "visible" : "hidden"}
@@ -135,7 +149,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 </div>
             );
         }
-    
+
         // For videos
         if (demo.type === 'video') {
             if (isMobileLike) {
@@ -152,7 +166,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     />
                 );
             }
-            
+
             return (
                 <motion.video
                     variants={animations.content}
@@ -169,7 +183,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 />
             );
         }
-    
+
         // Regular images
         return (
             <motion.img
@@ -184,11 +198,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             />
         );
     };
-    
-    
+
+
 
     return (
-        <motion.div 
+        <motion.div
             className={`
                 bg-black/80 backdrop-blur-sm rounded-lg overflow-hidden 
                 border border-slate-200/20 shadow-lg
@@ -208,7 +222,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 {renderDemo()}
             </div>
 
-            <motion.div 
+            <motion.div
                 className="p-6"
                 variants={animations.content}
                 initial="initial"
@@ -223,20 +237,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
                         {githubLink && (
-                            <a href={githubLink} 
-                               target="_blank" 
-                               rel="noopener noreferrer"
-                               className="text-white hover:text-white transition-colors duration-200"
-                               onClick={(e) => e.stopPropagation()}>
+                            <a href={githubLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white hover:text-white transition-colors duration-200"
+                                onClick={(e) => e.stopPropagation()}>
                                 <GitHubIcon className="w-5 h-5" />
                             </a>
                         )}
                         {deployedLink && (
-                            <a href={deployedLink} 
-                               target="_blank" 
-                               rel="noopener noreferrer"
-                               className="text-white hover:text-white transition-colors duration-200"
-                               onClick={(e) => e.stopPropagation()}>
+                            <a href={deployedLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white hover:text-white transition-colors duration-200"
+                                onClick={(e) => e.stopPropagation()}>
                                 <ExternalLink className="w-5 h-5" />
                             </a>
                         )}
@@ -251,7 +265,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     <div className="flex flex-wrap gap-1.5">
                         {techStack.map((tech, index) => (
                             <div key={index}
-                                 className="bg-black/50 px-2 py-1 rounded-full flex items-center gap-1.5
+                                className="bg-black/50 px-2 py-1 rounded-full flex items-center gap-1.5
                                           hover:bg-slate hover:shadow-sm transition-all duration-200">
                                 <div className="w-4 h-4 flex items-center justify-center">
                                     {tech.icon}
@@ -267,14 +281,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                         <div className="pt-3 border-t border-slate-200/20">
                             <div className="flex flex-wrap gap-x-2 gap-y-1">
                                 {contributors.map((contributor, index) => (
-                                    <div key={index} 
-                                         className="font-secondary text-xs text-[#aab8d4]">
+                                    <div key={index}
+                                        className="font-secondary text-xs text-[#aab8d4]">
                                         {contributor.link ? (
                                             <a href={contributor.link}
-                                               target="_blank"
-                                               rel="noopener noreferrer"
-                                               className="hover:text-white transition-colors"
-                                               onClick={(e) => e.stopPropagation()}>
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="hover:text-white transition-colors"
+                                                onClick={(e) => e.stopPropagation()}>
                                                 {contributor.name}
                                             </a>
                                         ) : (
@@ -294,6 +308,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </motion.div>
         </motion.div>
     );
-};
+});
 
 export default ProjectCard;

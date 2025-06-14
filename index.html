@@ -1,17 +1,53 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#222F4A" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mahit Gupta | Portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="/src/main.tsx" as="script" />
+  <link rel="preload" href="/src/assets/fonts/main-font.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+
+  <!-- Meta tags for better performance and SEO -->
+  <meta name="theme-color" content="#222F4A" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio website of Mahit Gupta - Software Developer and Engineer" />
+  <meta name="keywords" content="Mahit Gupta, Portfolio, Software Developer, Engineer, Web Development" />
+
+  <!-- Open Graph tags for better social sharing -->
+  <meta property="og:title" content="Mahit Gupta | Portfolio" />
+  <meta property="og:description" content="Portfolio website of Mahit Gupta - Software Developer and Engineer" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://your-domain.com" />
+  <meta property="og:image" content="/og-image.jpg" />
+
+  <title>Mahit Gupta | Portfolio</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <!-- Register service worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('SW registered:', registration);
+        }).catch(error => {
+          console.log('SW registration failed:', error);
+        });
+      });
+    }
+  </script>
+</body>
+
 </html>
