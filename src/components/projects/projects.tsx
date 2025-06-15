@@ -336,7 +336,7 @@ export const projectsData: ProjectData[] = [
   {
     title: 'Bookify',
     type: 'Full Stack Development',
-    description: 'A web application that allows users to search for books, add them to their library, and track their reading progress. also allows users to visualize their reading patterns. Uses Google Books API to search for books and D3.js to visualize reading patterns.',
+    description: 'A web application that allows users to search for books, add them to their library, and track their reading progress. Also allows users to visualize their reading patterns. Uses Google Books API to search for books and D3.js to visualize reading patterns.',
     techStack: [
       { name: 'JavaScript', icon: <JsIcon /> },
       { name: 'HTML', icon: <HTMLIcon /> },
