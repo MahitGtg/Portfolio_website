@@ -293,7 +293,7 @@ export const projectsData: ProjectData[] = [
   {
     title: 'FitTraker',
     type: 'Full Stack Development',
-    description: "A full-stack fitness assessment platform enabling tracking and visualization of student fitness data across university units. Built for UWA's Sport Science department, it features comprehensive data analysis tools with integrated outlier detection to provide real-time, cohort-specific fitness benchmarks",
+    description: "A full-stack fitness assessment platform enabling tracking and visualization of student fitness data across university units. Built for UWA's Sport Science department, it features comprehensive data analysis tools with integrated outlier detection to provide real-time, cohort-specific fitness benchmarks.",
     techStack: [
       { name: 'JavaScript', icon: <JsIcon /> },
       { name: 'HTML', icon: <HTMLIcon /> },
