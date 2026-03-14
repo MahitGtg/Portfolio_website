@@ -154,7 +154,7 @@ const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      className="fixed inset-0 overflow-hidden"
+      className="fixed inset-0 lg:overflow-hidden"
       style={{
         height: "calc(var(--vh, 1vh) * 100)",
         position: "relative",
