@@ -1,5 +1,4 @@
-import React from 'react';
-import { KeyRound } from 'lucide-react';
+import { KeyRound } from "lucide-react";
 
 const SecureAccessDemo = () => (
   <div className="w-full h-full min-h-0 flex bg-black/50 p-2">

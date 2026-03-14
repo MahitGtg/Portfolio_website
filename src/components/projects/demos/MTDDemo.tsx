@@ -1,4 +1,3 @@
-import React from 'react';
 import { FileSearch, Lock } from 'lucide-react';
 
 const cells = [

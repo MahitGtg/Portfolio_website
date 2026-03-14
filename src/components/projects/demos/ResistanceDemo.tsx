@@ -1,5 +1,4 @@
-import React from 'react';
-import { ShieldCheck, Swords } from 'lucide-react';
+import { ShieldCheck, Swords } from "lucide-react";
 
 const ResistanceDemo = () => (
   <div className="w-full h-full min-h-0 flex bg-black/50 p-2 gap-2">

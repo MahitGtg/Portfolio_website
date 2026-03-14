@@ -1,22 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles } from 'lucide-react';
-import useIsVisible from './useIsVisible';
+import { Sparkles } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import useIsVisible from "./useIsVisible";
 
 const TabKeysDemo = () => {
-  const [phase, setPhase] = useState<'typing' | 'suggestion' | 'accept'>('typing');
+  const [phase, setPhase] = useState<"typing" | "suggestion" | "accept">(
+    "typing",
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const isVisible = useIsVisible(containerRef);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!isVisible) {
-      if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
       return;
     }
     intervalRef.current = setInterval(() => {
-      setPhase(prev => (prev === 'typing' ? 'suggestion' : prev === 'suggestion' ? 'accept' : 'typing'));
+      setPhase((prev) =>
+        prev === "typing"
+          ? "suggestion"
+          : prev === "suggestion"
+            ? "accept"
+            : "typing",
+      );
     }, 2000);
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [isVisible]);
 
   return (
@@ -28,13 +41,15 @@ const TabKeysDemo = () => {
         </div>
         <div className="relative min-h-[3.5rem] flex items-center">
           <div className="bg-white/5 rounded-lg border border-slate-200/20 px-3 py-2.5 font-mono text-xs text-white/90 w-full">
-            {phase === 'typing' && <span>The quick brown fox jum</span>}
-            {phase === 'suggestion' && <span>The quick brown fox jum</span>}
-            {phase === 'accept' && (
-              <span className="text-white">The quick brown fox jumps over the lazy dog</span>
+            {phase === "typing" && <span>The quick brown fox jum</span>}
+            {phase === "suggestion" && <span>The quick brown fox jum</span>}
+            {phase === "accept" && (
+              <span className="text-white">
+                The quick brown fox jumps over the lazy dog
+              </span>
             )}
           </div>
-          {phase === 'suggestion' && (
+          {phase === "suggestion" && (
             <div
               className="absolute left-3 top-0 -translate-y-full -mt-1
                 bg-black/90 backdrop-blur-sm rounded-lg border border-slate-200/30
@@ -48,9 +63,10 @@ const TabKeysDemo = () => {
           )}
         </div>
         <p className="text-[10px] text-white/50 mt-2">
-          {phase === 'typing' && 'Typing...'}
-          {phase === 'suggestion' && 'Suggestion shown in hover — press Tab to accept'}
-          {phase === 'accept' && 'Accepted'}
+          {phase === "typing" && "Typing..."}
+          {phase === "suggestion" &&
+            "Suggestion shown in hover — press Tab to accept"}
+          {phase === "accept" && "Accepted"}
         </p>
       </div>
     </div>

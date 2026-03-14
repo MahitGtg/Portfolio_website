@@ -141,7 +141,7 @@ export const projectsData: ProjectData[] = [
     title: "Café Wait Time Simulator",
     type: "Other",
     description:
-    "Stochastic agent-based simulation of a café queuing system, modelling M/M/1 dynamics with Poisson arrivals and exponential service times. Expores how arrival rates, service capacity, and staffing levels drive nonlinear congestion — validating Little's Law and demonstrating that adding a second barista at moderate load can cut average wait times by over 90%.",
+      "Stochastic agent-based simulation of a café queuing system, modelling M/M/1 dynamics with Poisson arrivals and exponential service times. Expores how arrival rates, service capacity, and staffing levels drive nonlinear congestion — validating Little's Law and demonstrating that adding a second barista at moderate load can cut average wait times by over 90%.",
     techStack: [
       { name: "Python", icon: <PythonIcon /> },
       { name: "Jupyter", icon: <JupyterIcon /> },
@@ -235,12 +235,12 @@ export const projectsData: ProjectData[] = [
       },
     ],
   },
-  
+
   {
     title: "Multiplayer Battleship Server",
     type: "Computer Networks",
     description:
-    "Multiplayer Battleships over raw TCP sockets, implementing a multi-threaded client-server architecture with a FIFO lobby system, real-time spectator broadcasting, 60-second reconnection windows, and a custom binary protocol with CRC-16 checksum verification.",
+      "Multiplayer Battleships over raw TCP sockets, implementing a multi-threaded client-server architecture with a FIFO lobby system, real-time spectator broadcasting, 60-second reconnection windows, and a custom binary protocol with CRC-16 checksum verification.",
     techStack: [
       { name: "Python", icon: <PythonIcon /> },
       { name: "Git", icon: <GitIcon /> },
@@ -249,7 +249,7 @@ export const projectsData: ProjectData[] = [
       type: "interactive",
       content: <BattleshipDemo />,
     },
-    githubLink: "https://github.com/MahitGtg/Battleships-Computer-Networks"
+    githubLink: "https://github.com/MahitGtg/Battleships-Computer-Networks",
   },
 
   {

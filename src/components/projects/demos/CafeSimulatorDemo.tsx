@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { Coffee, User } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import useIsVisible from './useIsVisible';
 
 const MAX_QUEUE = 6;

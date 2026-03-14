@@ -1,4 +1,3 @@
-import React from 'react';
 import { Crosshair } from 'lucide-react';
 
 const BATTLESHIP_GRID = [
