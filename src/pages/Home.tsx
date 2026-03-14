@@ -154,10 +154,9 @@ const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      className="fixed inset-0 overflow-y-auto scrollbar-none touch-pan-y"
+      className="fixed inset-0 overflow-hidden"
       style={{
         height: "calc(var(--vh, 1vh) * 100)",
-        WebkitOverflowScrolling: "touch",
         position: "relative",
       }}
     >
