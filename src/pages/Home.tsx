@@ -4,10 +4,28 @@ import { useNavigate } from 'react-router-dom';
 import { LinkedinIcon, DiscordIcon, GitHubIcon, XIcon } from '../assets/icons/socials';
 import { Mail } from 'lucide-react';
 import {
-    CIcon, CSSIcon, DockerIcon, FigmaIcon, FlaskIcon, GitIcon,
-    HTMLIcon, JavaIcon, JsIcon, PostgresIcon,
-    PythonIcon, ReactIcon, TailwindIcon, TypeScriptIcon, NextjsIcon, BootstrapIcon, VSCodeIcon,
-    PandaIcon, UbuntuIcon, SvelteIcon, VueIcon, DjangoIcon
+    BootstrapIcon,
+    CIcon,
+    CSSIcon,
+    ExpoIcon,
+    FlaskIcon,
+    HTMLIcon,
+    JavaIcon,
+    JsIcon,
+    JupyterIcon,
+    NextjsIcon,
+    PandaIcon,
+    PostgresIcon,
+    PythonIcon,
+    PyTorchIcon,
+    SupabaseIcon,
+    SvelteIcon,
+    SwiftIcon,
+    TailwindIcon,
+    TypeScriptIcon,
+    VueIcon,
+    DjangoIcon,
+    ConvexIcon,
 } from '../assets/icons/technologies';
 import { useViewport } from '../hooks/useViewport';
 import ProjectsModalComponent from '../components/projects/ProjectsModal';
@@ -34,36 +52,35 @@ const TechnologySection = () => {
                 { Icon: JavaIcon, name: 'Java' },
                 { Icon: CIcon, name: 'C' },
                 { Icon: HTMLIcon, name: 'HTML' },
-                { Icon: CSSIcon, name: 'CSS' }
-            ]
+                { Icon: CSSIcon, name: 'CSS' },
+            ],
         },
-        'Library & Frameworks': {
+        'Frontend & Mobile': {
             icon: Library,
             techs: [
-                { Icon: ReactIcon, name: 'React.js' },
                 { Icon: NextjsIcon, name: 'Next.js' },
-                { Icon: TailwindIcon, name: 'Tailwind' },
-                { Icon: FlaskIcon, name: 'Flask' },
-                { Icon: BootstrapIcon, name: 'Bootstrap' },
                 { Icon: SvelteIcon, name: 'Svelte' },
                 { Icon: VueIcon, name: 'Vue.js' },
-                { Icon: DjangoIcon, name: 'Django' }
-
-            ]
+                { Icon: TailwindIcon, name: 'Tailwind CSS' },
+                { Icon: BootstrapIcon, name: 'Bootstrap' },
+                { Icon: SwiftIcon, name: 'Swift' },
+                { Icon: ExpoIcon, name: 'Expo' },
+            ],
         },
-        'Tools': {
+        'Backend & Data': {
             icon: Wrench,
             techs: [
-                { Icon: VSCodeIcon, name: 'VSCode' },
-                { Icon: GitIcon, name: 'Git' },
-                { Icon: DockerIcon, name: 'Docker' },
+                { Icon: FlaskIcon, name: 'Flask' },
+                { Icon: DjangoIcon, name: 'Django' },
                 { Icon: PostgresIcon, name: 'PostgreSQL' },
-                { Icon: FigmaIcon, name: 'Figma' },
+                { Icon: SupabaseIcon, name: 'Supabase' },
                 { Icon: PandaIcon, name: 'Pandas' },
-                { Icon: UbuntuIcon, name: 'Ubuntu' }
-            ]
-        }
-    };
+                { Icon: JupyterIcon, name: 'Jupyter' },
+                { Icon: PyTorchIcon, name: 'PyTorch' },
+                { Icon: ConvexIcon, name: 'Convex' },
+            ],
+        },
+    } as const;
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
@@ -196,7 +213,7 @@ const EnhancedBackground = ({ children }: { children: React.ReactNode }) => {
 };
 
 const SocialLink = ({ Icon, href }: {
-    Icon: React.ComponentType<any>;
+    Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
     href: string;
 }) => (
     <a
@@ -310,7 +327,7 @@ const Home = () => {
                             {/* Role and Location */}
                             <div className="space-y-3 mb-6">
                                 <p className="font-secondary text-lg text-[#aab8d4]">
-                                    {"< Software Developer / Cybersecurity / AI >"}
+                                    {"< Software Engineer / Cybersecurity / AI >"}
                                 </p>
                                 <div className={`
                                     flex items-center gap-2
